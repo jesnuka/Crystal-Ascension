@@ -1,0 +1,104 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    [Header("References")]
+    [SerializeField] Rigidbody2D rgb;
+    [SerializeField] Material playerColorMaterial;
+
+    [Header("Movement")]
+    [SerializeField] Vector2 movement;
+
+    [Header("Player Values")]
+    [SerializeField] Color playerColorDefault;
+    [SerializeField] Color playerColor;
+    [SerializeField] int healthMax;
+    [SerializeField] int health;
+    [SerializeField] float speedMultiplier;
+    [SerializeField] float playerMaxVelocity;
+
+    [Header("Bullets")]
+    [SerializeField] GameObject bulletObject;
+    [SerializeField] Color bulletColor;
+    [SerializeField] float bulletDamage;
+    [SerializeField] float bulletAmount;
+    [SerializeField] float bulletSpread;
+    [SerializeField] float bulletSpeed;
+    [SerializeField] float bulletLifetime;
+
+    [SerializeField] float shootCooldown;
+    [SerializeField] float shootCooldownMax;
+
+
+    private void Awake()
+    {
+        ChangePlayerColor(playerColorDefault);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        GetInput();
+        MovePlayer();
+    }
+
+    public void ChangePlayerColor(Color newColor)
+    {
+        playerColor = newColor;
+        playerColorMaterial.SetColor("Color_C13AA74B", playerColor);
+    }
+
+    #region Movement
+    private void GetInput()
+    {
+          Vector3 screenCursorPos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane); 
+        //  cursorPos = Camera.main.ScreenToWorldPoint(cursorPos);
+      //  Vector3 screenCursorPos = Input.mousePosition;
+        Vector2 cursorPos = Camera.main.ScreenToWorldPoint(screenCursorPos);
+        Vector2 direction = cursorPos - (Vector2)transform.position;
+        direction.Normalize();
+        Debug.Log("Shoot dir: " + direction);
+
+        //Vector3 cursorPos = Input.mousePosition;
+        //cursorPos.z = 10f;
+        shootCooldown -= Time.deltaTime;
+        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        if (Input.GetMouseButton(0))
+        {
+            // Vector2 cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //  Vector2 direction = new Vector2(cursorPos.x, cursorPos.y) - new Vector2(transform.position.x, transform.position.y);
+            // direction.Normalize();
+          //  shootDir.Normalize();
+
+            if(shootCooldown <= 0f)
+            {
+                Shoot(direction);
+                shootCooldown = shootCooldownMax;
+            }
+
+        }
+    }
+    private void MovePlayer()
+    {
+        if(rgb.velocity.magnitude < playerMaxVelocity)
+            rgb.velocity += movement * speedMultiplier;
+    }
+    #endregion
+
+    #region Shooting
+
+    private void Shoot(Vector2 direction)
+    {
+        for(int i = 0; i < bulletAmount; i++)
+        {
+            GameObject bullet = Instantiate(bulletObject, this.transform.position, Quaternion.identity);
+            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor);
+        }
+    }
+
+    #endregion
+
+}
