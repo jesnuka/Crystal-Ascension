@@ -14,7 +14,7 @@ public class BackgroundManager : MonoBehaviour
     {
         Camera.main.backgroundColor = backgroundColor;
         var newShape = backgroundParticles.shape;
-        newShape.scale = new Vector3(Screen.width, Screen.width, 1f);
+        //newShape.scale = new Vector3(Screen.width, Screen.width, 1f);
         var newMain = backgroundParticles.main;
         newMain.startColor = particleColor;
     }

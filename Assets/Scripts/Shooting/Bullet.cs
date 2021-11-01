@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     [Header("References")]
     [SerializeField] Material bulletMaterial;
     [SerializeField] Rigidbody2D rgb;
+    [SerializeField] GameObject bulletDeathParticle;
 
     [Header("Bullet Values")]
     [SerializeField] Color bulletColor;
@@ -49,6 +50,7 @@ public class Bullet : MonoBehaviour
 
     private void DestroyBullet()
     {
+        Instantiate(bulletDeathParticle, transform);
         Destroy(this.gameObject);
     }
 
