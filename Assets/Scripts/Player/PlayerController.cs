@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Each round randomizes a text from here to display at the end")]
     [SerializeField] List<String> deathDescriptions = new List<string>();
     [SerializeField] GameObject pauseMenu;
+    [SerializeField] GameObject pauseMenuConfirmBox;
     [SerializeField] bool menuOpen;
 
     [SerializeField] GameObject deathScreen;
@@ -264,6 +266,7 @@ public class PlayerController : MonoBehaviour
     {
         //   SoundManager.instance.PlaySound("pauseGame", Vector3.zero, transform.gameObject);
         pauseMenu.gameObject.SetActive(false);
+        pauseMenuConfirmBox.SetActive(false);
         menuOpen = false;
         UpdatePlayerStatsUI();
 
@@ -278,6 +281,16 @@ public class PlayerController : MonoBehaviour
         UpdatePlayerStatsUI();
 
         Time.timeScale = 0;
+    }
+
+    public void OpenConfirmBox()
+    {
+        pauseMenuConfirmBox.SetActive(true);
+    }
+
+    public void CloseConfirmBox()
+    {
+        pauseMenuConfirmBox.SetActive(false);
     }
 
     public int OutputPlayerScore()
@@ -335,6 +348,18 @@ public class PlayerController : MonoBehaviour
         deathMenuTimerOn = true;
     }
 
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MenuScene");
+    }
+    public void RestartGame()
+    {
+        // TODO: Add other way to do this? Make sure nothing breaks!
+
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("GameScene");
+    }
     private void UpdatePlayerUI()
     {
         text_playerHealthUI.text = "Energy: " + health.ToString();
