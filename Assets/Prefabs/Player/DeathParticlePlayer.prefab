@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6553807974812322331}
   - component: {fileID: 6553807974812322330}
-  - component: {fileID: 6052869433836613615}
+  - component: {fileID: 147560099365960445}
   - component: {fileID: 6553807974812322329}
   - component: {fileID: 6553807974812322328}
   m_Layer: 0
-  m_Name: DeathParticle
+  m_Name: DeathParticlePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,7 +117,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 4
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -170,7 +170,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 25
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -977,7 +977,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 25
+        scalar: 100
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -3878,7 +3878,7 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 1
+    enabled: 0
     ratio: 0
     light: {fileID: 0}
     randomDistribution: 1
@@ -4806,7 +4806,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &6052869433836613615
+--- !u!114 &147560099365960445
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4818,7 +4818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49697891e2a56c1469fdd50370b85c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Prefab: {fileID: 2083177164822439092, guid: e325c7d38a113b042894755b9c029296, type: 3}
+  m_Prefab: {fileID: 2083177164822439092, guid: e3f97718bb30a09418451f98725c6742, type: 3}
 --- !u!199 &6553807974812322329
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4897,5 +4897,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71cdbd76d8ec651449c8b898eb6ccd5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTimeCurrent: 2
+  lifeTimeCurrent: 1
   ps: {fileID: 6553807974812322330}
