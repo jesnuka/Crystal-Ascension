@@ -74,6 +74,7 @@ MonoBehaviour:
   bulletSpeed: 50
   bulletLifetime: 10
   bulletBounces: 0
+  bulletSizeMultiplier: 1
   shootCooldown: 1
   shootCooldownMax: 1
   moveTimer: 0

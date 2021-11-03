@@ -51,7 +51,8 @@ abstract public class Enemy : MonoBehaviour
     [SerializeField] public float bulletSpeed;
     [SerializeField] public float bulletLifetime;
     [SerializeField] public float bulletBounces;
-                      
+    [SerializeField] public float bulletSizeMultiplier;
+
     [SerializeField] public float shootCooldown;
     [SerializeField] public float shootCooldownMax;
 
@@ -75,7 +76,7 @@ abstract public class Enemy : MonoBehaviour
     }
 
     #region Spawning
-    public void InitiateEnemyStats(float speedMult, int extraBullets, float fireRateMult, float damageMult, float universalLifesteal, float universalHealthRegen)
+    public void InitiateEnemyStats(float speedMult, int extraBullets, float fireRateMult, float damageMult, float bulletSizeExtraMult, float universalLifesteal, float universalHealthRegen)
     {
         if (universalLifesteal > 0)
             canLifeSteal = true;
@@ -89,6 +90,7 @@ abstract public class Enemy : MonoBehaviour
         bulletAmount = bulletAmount + extraBullets;
         shootCooldownMax = Mathf.Abs(shootCooldownMax - shootCooldownMax * fireRateMult);
         bulletDamage = bulletDamage + bulletDamage * damageMult;
+        bulletSizeMultiplier = bulletSizeMultiplier + bulletSizeExtraMult;
 
         lifeStealAmount = universalLifesteal;
         healthRegenAmount = universalHealthRegen;

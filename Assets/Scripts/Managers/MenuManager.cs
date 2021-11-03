@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject panel_Settings;
     [SerializeField] GameObject panel_Credits;
     [SerializeField] GameObject panel_Unlockables;
+    [SerializeField] GameObject panel_Controls;
 
     [Header("Settings")]
     [SerializeField] float musicVolume;
@@ -48,6 +49,7 @@ public class MenuManager : MonoBehaviour
         panel_Credits.SetActive(false);
         panel_Settings.SetActive(false);
         panel_Unlockables.SetActive(false);
+        panel_Controls.SetActive(false);
 
         panel_MainMenu.SetActive(true);
     }
@@ -57,6 +59,7 @@ public class MenuManager : MonoBehaviour
         panel_Credits.SetActive(false);
         panel_Unlockables.SetActive(false);
         panel_MainMenu.SetActive(false);
+        panel_Controls.SetActive(false);
 
         panel_Settings.SetActive(true);
     }
@@ -66,6 +69,7 @@ public class MenuManager : MonoBehaviour
         panel_Unlockables.SetActive(false);
         panel_MainMenu.SetActive(false);
         panel_Settings.SetActive(false);
+        panel_Controls.SetActive(false);
 
         panel_Credits.SetActive(true);
     }
@@ -75,8 +79,18 @@ public class MenuManager : MonoBehaviour
         panel_MainMenu.SetActive(false);
         panel_Settings.SetActive(false);
         panel_Credits.SetActive(false);
+        panel_Controls.SetActive(false);
 
         panel_Unlockables.SetActive(true);
+    }
+    public void GoToControls()
+    {
+        panel_MainMenu.SetActive(false);
+        panel_Settings.SetActive(false);
+        panel_Credits.SetActive(false);
+        panel_Unlockables.SetActive(false);
+
+        panel_Controls.SetActive(true);
     }
 
     public void StartGame()

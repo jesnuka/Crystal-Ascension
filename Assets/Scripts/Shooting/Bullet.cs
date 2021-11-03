@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour
         Physics2D.IgnoreLayerCollision(10, 11, true);
     }
 
-    public void ShootBullet(float damage, float lifetime, float speed, Vector2 direction, Color bColor)
+    public void ShootBullet(float damage, float lifetime, float speed, Vector2 direction, Color bColor, float sizeMultiplier)
     {
         bulletDamage = damage;
         bulletLifetime = lifetime;
@@ -44,6 +44,7 @@ public class Bullet : MonoBehaviour
         bulletColor = bColor;
         bulletMaterial.SetColor("Color_C13AA74B", bulletColor);
         bulletDirection = direction;
+        this.transform.localScale = transform.localScale * sizeMultiplier;
 
         var lookDir = direction - (Vector2)transform.position;
         direction.Normalize();

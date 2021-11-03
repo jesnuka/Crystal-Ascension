@@ -41,15 +41,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float deathMenuWait;
 
     [Header("Buttons")]
-    [SerializeField] KeyCode escapeKey;
+    [SerializeField] KeyCode pauseKey1;
+    [SerializeField] KeyCode pauseKey2;
+    [SerializeField] KeyCode pauseKey3;
 
     [Header("Movement")]
     [SerializeField] Vector2 movement;
 
     [Header("Player Values")]
     [SerializeField] float timeSurvived;
-    [SerializeField] Color playerColorDefault;
-    [SerializeField] Color playerColor;
+    [ColorUsage(true, true)] [SerializeField] Color playerColorDefault;
+    [ColorUsage(true, true)] [SerializeField] Color playerColor;
     [SerializeField] int score;
     [SerializeField] int scoreMultiplier;
     [Tooltip("How much more damage the player takes")]
@@ -79,6 +81,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float bulletSpeed;
     [SerializeField] float bulletLifetime;
     [SerializeField] float bulletBounces;
+    [SerializeField] float bulletSizeMultiplier;
 
     [SerializeField] float shootCooldown;
     [SerializeField] float shootCooldownMax;
@@ -100,6 +103,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text text_playerTimeSurvived;
     [SerializeField] TMP_Text text_playerFrailness;
     [SerializeField] TMP_Text text_playerLuckiness;
+    [SerializeField] TMP_Text text_playerValourMultiplier;
 
     // Bullet values
     [SerializeField] TMP_Text text_bulletDamage;
@@ -110,6 +114,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text text_bulletSpread;
     [SerializeField] TMP_Text text_bulletLifetime;
     [SerializeField] TMP_Text text_bulletBounces;
+    [SerializeField] TMP_Text text_bulletSizeMultiplier;
 
 
 
@@ -194,10 +199,10 @@ public class PlayerController : MonoBehaviour
 
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if(Input.GetKeyDown(KeyCode.U))
+        /*if(Input.GetKeyDown(KeyCode.U))
         {
             TakeDamage(5000f);
-        }
+        }*/
 
         if (Input.GetMouseButton(0))
         {
@@ -213,7 +218,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(escapeKey))
+        if(Input.GetKeyDown(pauseKey1) || Input.GetKeyDown(pauseKey2) || Input.GetKeyDown(pauseKey3))
         {
             if (menuOpen)
                 CloseMenu();
@@ -400,6 +405,11 @@ public class PlayerController : MonoBehaviour
         else
             text_playerLuckiness.text = "";
 
+        if (scoreMultiplier > 0)
+            text_playerValourMultiplier.text = "Extra Valour Multiplier: " + scoreMultiplier.ToString();
+        else
+            text_playerValourMultiplier.text = "";
+
         // Bullet values
         text_bulletDamage.text = "Damage: " + bulletDamage.ToString();
         text_bulletAmount.text = "Bullets: " + bulletAmount.ToString();
@@ -407,6 +417,7 @@ public class PlayerController : MonoBehaviour
         text_bulletCooldown.text = "Firing Rate: " + shootCooldownMax.ToString();
 
         text_bulletSpread.text = "Bullet Spread: " + bulletSpread.ToString();
+        text_bulletSizeMultiplier.text = "Bullet Size Multiplier: " + bulletSizeMultiplier.ToString();
         text_bulletLifetime.text = "Bullet Lifetime: " + bulletLifetime.ToString();
 
         if (bulletBounces > 0)
@@ -462,16 +473,27 @@ public class PlayerController : MonoBehaviour
         // deathPs.GetComponent<ParticleEmission>().particleAmount = Mathf.RoundToInt((float)Math.Round((double)(totalHeroism / 10f)));
         if (totalHeroism <= 10)
         {
-            Debug.Log("Below 10");
             deathPs.GetComponent<ParticleEmission>().particleAmount = 10;
+        }
+        else if (totalHeroism > 10 && totalHeroism <= 1000)
+        {
+            deathPs.GetComponent<ParticleEmission>().particleAmount = 10 + (Math.Abs((int)(totalHeroism / 10f)));
+        }
+        else if (totalHeroism > 1000 && totalHeroism <= 10000)
+        {
+            deathPs.GetComponent<ParticleEmission>().particleAmount = 100 + (Math.Abs((int)(totalHeroism / 100f)));
+        }
+        else if (totalHeroism > 10000 && totalHeroism <= 100000)
+        {
+            deathPs.GetComponent<ParticleEmission>().particleAmount = 200 + (Math.Abs((int)(totalHeroism / 1000f)));
         }
         else
         {
-            Debug.Log("Else " + totalHeroism);
-            deathPs.GetComponent<ParticleEmission>().particleAmount = 10 + (Math.Abs((int)(totalHeroism / 10f)));
+            deathPs.GetComponent<ParticleEmission>().particleAmount = 300;
         }
         deathPs.GetComponent<ParticleEmission>().PlayParticleBurst();
         playerSprite.SetActive(false);
+        EnemySpawnManager.instance.gameEnded = true;
         // SoundManager.instance.PlaySound("playerDeath", Vector3.zero, this.gameObject);
         // TODO: Stop music from playing here, then show END SCREEN after a while
         yield return new WaitForSeconds(4f);
@@ -539,7 +561,7 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < bulletAmount; i++)
         {
             GameObject bullet = Instantiate(bulletObject, this.transform.position, Quaternion.identity);
-            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor);
+            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier);
         }
     }
 

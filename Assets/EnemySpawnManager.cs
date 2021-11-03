@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
+    public static EnemySpawnManager instance;
+
     [Header("Enemies")]
     [SerializeField] List<GameObject> enemyList;
     [Tooltip("As time goes up, more varieties of enemies are spawned")]
@@ -16,6 +18,7 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] int extraBullets;
     [SerializeField] float fireRateMultiplier;
     [SerializeField] float damageMultiplier;
+    [SerializeField] float bulletSizeExtraMultiplier;
 
     // If player gets some upgrade, it can give all enemies lifesteal and health regen, which is added on top of their own ones.
     [SerializeField] bool allCanLifesteal;
@@ -25,6 +28,7 @@ public class EnemySpawnManager : MonoBehaviour
 
     [Header("Spawning")]
     [SerializeField] bool gameStarted;
+    [SerializeField] public bool gameEnded;
     [Tooltip("Spawn enemies after small delay at first, no instant spawning")]
     [SerializeField] float gameStartTimer;
 
@@ -33,10 +37,22 @@ public class EnemySpawnManager : MonoBehaviour
     [Tooltip("The longer the game goes on, the more frequently enemies are spawned")]
     [SerializeField] float spawnTimerDecreaseMultiplier;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        if(gameStarted)
+        if(gameStarted && !gameEnded)
         {
             spawnTimer -= Time.deltaTime;
             timeSurvived += Time.deltaTime;
@@ -71,7 +87,7 @@ public class EnemySpawnManager : MonoBehaviour
         int index = Random.Range(0, enemyDifficultyIndex);
         GameObject enemyObject = Instantiate(enemyList[index], RandomizeSpawnPoint(), Quaternion.identity);
         Enemy enemy = enemyObject.GetComponent<Enemy>();
-        enemy.InitiateEnemyStats(speedMultiplier, extraBullets, fireRateMultiplier, damageMultiplier, universalLifesteal, universalHealthRegen);
+        enemy.InitiateEnemyStats(speedMultiplier, extraBullets, fireRateMultiplier, damageMultiplier, bulletSizeExtraMultiplier, universalLifesteal, universalHealthRegen);
         
     }
 

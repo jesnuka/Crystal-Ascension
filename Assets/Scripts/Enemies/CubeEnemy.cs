@@ -25,18 +25,18 @@ public class CubeEnemy : Enemy
             if (Vector2.Distance(transform.position, moveTarget) <= 1f)
             {
                 isMoving = false;
-                Debug.Log("Stop moving!");
+             //   Debug.Log("Stop moving!");
             }
 
-            Debug.Log("Move to target");
-            Debug.Log(moveTarget);
+           // Debug.Log("Move to target");
+           // Debug.Log(moveTarget);
             transform.position = Vector2.MoveTowards(transform.position, moveTarget, speedMultiplier * Time.deltaTime);
         }
         else
         {
             // moveTarget = new Vector2(Random.Range(0, Camera.main.pixelWidth), Random.Range(0, Camera.main.pixelHeight));
             moveTarget = Camera.main.ScreenToWorldPoint(new Vector2(Random.Range(0, Screen.width), Random.Range(0, Screen.height)));
-            Debug.Log("Move!");
+          //  Debug.Log("Move!");
             isMoving = true;
         }
     }
@@ -62,7 +62,7 @@ public class CubeEnemy : Enemy
         for (int i = 0; i < bulletAmount; i++)
         {
             GameObject bullet = Instantiate(bulletObject, this.transform.position, Quaternion.identity);
-            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor);
+            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier);
         }
     }
 

@@ -32,7 +32,6 @@ public class ParticleEmission : MonoBehaviour
                 }
             );
 
-        Debug.Log("First, particleAmount is" + particleAmount);
        // em.burstCount = particleAmount;
     }
 
