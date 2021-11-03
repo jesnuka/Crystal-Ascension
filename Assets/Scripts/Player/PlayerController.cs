@@ -10,9 +10,8 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] Rigidbody2D rgb;
     [SerializeField] Material playerColorMaterial;
-    [SerializeField] ParticleSystem deathParticles;
+    [SerializeField] GameObject deathParticles;
     [SerializeField] GameObject playerSprite;
-    [SerializeField] Renderer playerRenderer;
 
     [Header("Menus")]
     [Tooltip("Each round randomizes a text from here to display at the end")]
@@ -51,7 +50,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float timeSurvived;
     [SerializeField] Color playerColorDefault;
     [SerializeField] Color playerColor;
-    [SerializeField] float score;
+    [SerializeField] int score;
+    [SerializeField] int scoreMultiplier;
     [Tooltip("How much more damage the player takes")]
     [SerializeField] float frailnessMultiplier;
     [SerializeField] float luckiness;
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float playerMaxVelocity;
 
 
-    [SerializeField] bool isDead;
+    [SerializeField] public bool isDead;
     [SerializeField] bool isInGameSpace;
 
     [Header("Bullets")]
@@ -169,6 +169,13 @@ public class PlayerController : MonoBehaviour
         playerColor = newColor;
         playerColorMaterial.SetColor("Color_C13AA74B", playerColor);
     }
+    #region Score
+    public void AddScore(int newScore)
+    {
+        Debug.Log("Score added!");
+        score += newScore + newScore * scoreMultiplier;
+    }
+    #endregion
 
     #region Input
     private void GetInput()
@@ -427,32 +434,47 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
-        float frailness = 1;
-        if (frailnessMultiplier > 0)
-            frailness = frailnessMultiplier;
+        if(!isDead)
+        {
+            float frailness = 1;
+            if (frailnessMultiplier > 0)
+                frailness = frailnessMultiplier;
 
-        if (health - damage * frailness <= 0)
-        {
-            isDead = true;
-            StartCoroutine(PlayerDeath());
-            Debug.Log("Player Death!");
-        }
-        else
-        {
-            health -= damage * frailness;
+            if (health - damage * frailness <= 0)
+            {
+                isDead = true;
+                StartCoroutine(PlayerDeath());
+                Debug.Log("Player Death!");
+            }
+            else
+            {
+                health -= damage * frailness;
+            }
         }
     }
 
     IEnumerator PlayerDeath()
     {
-        Instantiate(deathParticles, transform);
+        totalHeroism = OutputPlayerScore();
+        GameObject deathPs = Instantiate(deathParticles, transform);
+        // deathPs.GetComponent<ParticleEmission>().particleAmount = Mathf.RoundToInt((float)Math.Round((double)(totalHeroism / 10f)));
+        if (totalHeroism <= 10)
+        {
+            Debug.Log("Below 10");
+            deathPs.GetComponent<ParticleEmission>().particleAmount = 10;
+        }
+        else
+        {
+            Debug.Log("Else " + totalHeroism);
+            deathPs.GetComponent<ParticleEmission>().particleAmount = 10 + (Math.Abs((int)(totalHeroism / 10f)));
+        }
+        deathPs.GetComponent<ParticleEmission>().PlayParticleBurst();
         playerSprite.SetActive(false);
         // SoundManager.instance.PlaySound("playerDeath", Vector3.zero, this.gameObject);
         // TODO: Stop music from playing here, then show END SCREEN after a while
         yield return new WaitForSeconds(4f);
-        totalHeroism = OutputPlayerScore();
         OpenDeathScreen();
     }
     #endregion

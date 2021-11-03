@@ -4897,5 +4897,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71cdbd76d8ec651449c8b898eb6ccd5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTimeCurrent: 1
+  lifeTime: 0
+  particleAmount: 0
   ps: {fileID: 6553807974812322330}
+  isPlayers: 1
+  isOn: 0

@@ -10,15 +10,30 @@ public class Bullet : MonoBehaviour
     [SerializeField] GameObject bulletDeathParticle;
 
     [Header("Bullet Values")]
+    [Tooltip("If true, bullet is dead")]
+    [SerializeField] bool isGone;
     [SerializeField] Color bulletColor;
     [SerializeField] float bulletDamage;
     [SerializeField] float bulletLifetime;
     [SerializeField] float bulletSpeed;
     [SerializeField] Vector2 bulletDirection;
 
+    [SerializeField] bool isEnemyBullet;
+
     private void Awake()
     {
         bulletMaterial.SetColor("Color_C13AA74B", bulletColor);
+
+        if(isEnemyBullet) // Ignore collision with enemy bullet and enemy layers
+            Physics2D.IgnoreLayerCollision(11,12, true);
+        else // Ignore collision with player bullet and player layers
+            Physics2D.IgnoreLayerCollision(10, 8, true);
+
+        // Ignore collision between other bullets
+        Physics2D.IgnoreLayerCollision(11, 11, true);
+        Physics2D.IgnoreLayerCollision(10, 10, true);
+        Physics2D.IgnoreLayerCollision(11, 10, true);
+        Physics2D.IgnoreLayerCollision(10, 11, true);
     }
 
     public void ShootBullet(float damage, float lifetime, float speed, Vector2 direction, Color bColor)
@@ -44,19 +59,45 @@ public class Bullet : MonoBehaviour
         bulletLifetime -= Time.deltaTime;
         rgb.velocity = bulletDirection * bulletSpeed;
 
-        if (bulletLifetime < 0f)
+        if (!isGone && bulletLifetime < 0f)
             DestroyBullet();
     }
 
+    /*IEnumerator DestroyBullet()
+    {
+        isGone = true;
+        Instantiate(bulletDeathParticle, this.transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.1f);
+        Destroy(this.gameObject);
+    }*/
+
     private void DestroyBullet()
     {
-        Instantiate(bulletDeathParticle, transform);
+        isGone = true;
+        Instantiate(bulletDeathParticle, this.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        DestroyBullet();
-        // TODO: Check enemy collision here first
+        if (isEnemyBullet)
+        {
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+            if(player != null)
+                player.TakeDamage(bulletDamage);
+            if(!player.isDead && !isGone)
+                DestroyBullet();
+        }
+        else
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if(enemy != null)
+                enemy.TakeDamage(bulletDamage);
+            if(!isGone)
+                DestroyBullet();
+        }
+
+
     }
 }
