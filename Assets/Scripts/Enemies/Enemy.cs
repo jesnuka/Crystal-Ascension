@@ -138,6 +138,7 @@ abstract public class Enemy : MonoBehaviour
         Instantiate(deathParticles, this.transform.position, Quaternion.identity);
         enemySprite.SetActive(false);
         CalculateScore();
+        UpgradeSpawnManager.instance.SpawnUpgrade(transform.position);
         EnemyDeathExtra();
     }
     #endregion

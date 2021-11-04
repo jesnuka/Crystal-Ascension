@@ -14,17 +14,17 @@ public class EnemySpawnManager : MonoBehaviour
     [Header("Difficulty")]
     [SerializeField] float timeSurvived;
     // Over time, increase stats of enemies spawned as well
-    [SerializeField] float speedMultiplier;
-    [SerializeField] int extraBullets;
-    [SerializeField] float fireRateMultiplier;
-    [SerializeField] float damageMultiplier;
-    [SerializeField] float bulletSizeExtraMultiplier;
+    [SerializeField] public float speedMultiplier;
+    [SerializeField] public int extraBullets;
+    [SerializeField] public float fireRateMultiplier;
+    [SerializeField] public float damageMultiplier;
+    [SerializeField] public float bulletSizeExtraMultiplier;
 
     // If player gets some upgrade, it can give all enemies lifesteal and health regen, which is added on top of their own ones.
-    [SerializeField] bool allCanLifesteal;
-    [SerializeField] float universalLifesteal;
-    [SerializeField] bool allCanHealthRegen;
-    [SerializeField] float universalHealthRegen;
+    [SerializeField] public bool allCanLifesteal;
+    [SerializeField] public float universalLifesteal;
+    [SerializeField] public bool allCanHealthRegen;
+    [SerializeField] public float universalHealthRegen;
 
     [Header("Spawning")]
     [SerializeField] bool gameStarted;
@@ -70,7 +70,10 @@ public class EnemySpawnManager : MonoBehaviour
             gameStartTimer -= Time.deltaTime;
 
             if (gameStartTimer < 0)
+            {
                 gameStarted = true;
+                UpgradeSpawnManager.instance.gameStarted = true;
+            }
         }
        
     }

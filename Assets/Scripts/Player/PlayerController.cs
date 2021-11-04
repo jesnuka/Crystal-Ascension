@@ -4,9 +4,12 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     [Header("References")]
     [SerializeField] Rigidbody2D rgb;
     [SerializeField] Material playerColorMaterial;
@@ -18,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] List<String> deathDescriptions = new List<string>();
     [SerializeField] GameObject pauseMenu;
     [SerializeField] GameObject pauseMenuConfirmBox;
-    [SerializeField] bool menuOpen;
+    [SerializeField] public bool menuOpen;
 
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject deathCounterSkipButton;
@@ -44,29 +47,38 @@ public class PlayerController : MonoBehaviour
     [SerializeField] KeyCode pauseKey1;
     [SerializeField] KeyCode pauseKey2;
     [SerializeField] KeyCode pauseKey3;
+    [SerializeField] public KeyCode pickupKey;
 
     [Header("Movement")]
     [SerializeField] Vector2 movement;
+    [SerializeField] float zRotation;
 
     [Header("Player Values")]
+    [SerializeField] public int upgradesTaken;
     [SerializeField] float timeSurvived;
     [ColorUsage(true, true)] [SerializeField] Color playerColorDefault;
+    [ColorUsage(true, true)] [SerializeField] Color playerColorHurt;
     [ColorUsage(true, true)] [SerializeField] Color playerColor;
+    [SerializeField] float colorLerpTimer;
+    [SerializeField] float colorLerpTimerMax;
+
     [SerializeField] int score;
-    [SerializeField] int scoreMultiplier;
+    [SerializeField] public int scoreMultiplier;
     [Tooltip("How much more damage the player takes")]
-    [SerializeField] float frailnessMultiplier;
-    [SerializeField] float luckiness;
-    [SerializeField] float healthMax;
-    [SerializeField] float health;
-    [SerializeField] float healthRegenAmount;
-    [SerializeField] float lifeStealAmount;
-
-    [SerializeField] bool canHealthRegen;
-    [SerializeField] bool canLifeSteal;
-
-    [SerializeField] float speedMultiplier;
-    [SerializeField] float playerMaxVelocity;
+    [SerializeField] public float frailnessMultiplier;
+    [SerializeField] public float invincibilityLengthMax;
+    [SerializeField] public float invincibilityLengthCurrent;
+    [SerializeField] public float luckiness;
+    [SerializeField] public float healthMax;
+    [SerializeField] public float health;
+    [SerializeField] public float healthRegenAmount;
+    [SerializeField] public float lifeStealAmount;
+                      
+    [SerializeField] public bool canHealthRegen;
+    [SerializeField] public bool canLifeSteal;
+                      
+    [SerializeField] public float speedMultiplier;
+    [SerializeField] public float playerMaxVelocity;
 
 
     [SerializeField] public bool isDead;
@@ -75,16 +87,16 @@ public class PlayerController : MonoBehaviour
     [Header("Bullets")]
     [SerializeField] GameObject bulletObject;
     [SerializeField] Color bulletColor;
-    [SerializeField] float bulletDamage;
-    [SerializeField] float bulletAmount;
-    [SerializeField] float bulletSpread;
-    [SerializeField] float bulletSpeed;
-    [SerializeField] float bulletLifetime;
-    [SerializeField] float bulletBounces;
-    [SerializeField] float bulletSizeMultiplier;
-
-    [SerializeField] float shootCooldown;
-    [SerializeField] float shootCooldownMax;
+    [SerializeField] public float bulletDamage;
+    [SerializeField] public float bulletAmount;
+    [SerializeField] public float bulletSpread;
+    [SerializeField] public float bulletSpeed;
+    [SerializeField] public float bulletLifetime;
+    [SerializeField] public float bulletBounces;
+    [SerializeField] public float bulletSizeMultiplier;
+                     
+    [SerializeField] public float shootCooldown;
+    [SerializeField] public float shootCooldownMax;
 
     [Header("UI References")]
 
@@ -102,6 +114,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text text_playerLifesteal;
     [SerializeField] TMP_Text text_playerTimeSurvived;
     [SerializeField] TMP_Text text_playerFrailness;
+    [SerializeField] TMP_Text text_playerInvincibilityFrames;
+    [SerializeField] Image bar_playerInvincibilityFrames;
     [SerializeField] TMP_Text text_playerLuckiness;
     [SerializeField] TMP_Text text_playerValourMultiplier;
 
@@ -110,6 +124,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text text_bulletAmount;
     [SerializeField] TMP_Text text_bulletSpeed;
     [SerializeField] TMP_Text text_bulletCooldown;
+    [SerializeField] Image bar_bulletCooldown;
 
     [SerializeField] TMP_Text text_bulletSpread;
     [SerializeField] TMP_Text text_bulletLifetime;
@@ -121,6 +136,16 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         ChangePlayerColor(playerColorDefault);
     }
 
@@ -142,6 +167,18 @@ public class PlayerController : MonoBehaviour
                 MovePlayer();
 
             CheckPlayerInGameSpace();
+
+            if (colorLerpTimer > 0)
+                LerpPlayerColor();
+            else
+                ChangePlayerColor(playerColorDefault);
+
+            if (canHealthRegen)
+                healPlayer(healthRegenAmount);
+        }
+        else if(health <= 0 && !isDead)
+        {
+            TakeDamage(-5000);
         }
 
         if(deathMenuTimerOn)
@@ -282,7 +319,8 @@ public class PlayerController : MonoBehaviour
         menuOpen = false;
         UpdatePlayerStatsUI();
 
-        Time.timeScale = 1;
+        if(!UpgradeSpawnManager.instance.upgradeScreenOpen)
+            Time.timeScale = 1;
     }
 
     private void OpenMenu()
@@ -318,6 +356,7 @@ public class PlayerController : MonoBehaviour
             CloseMenu();
         text_playerHealthUI.gameObject.SetActive(false);
         text_playerScoreUI.gameObject.SetActive(false);
+        UpgradeSpawnManager.instance.CloseUpgradeScreen();
         deathScreen.SetActive(true);
         deathDescription.gameObject.SetActive(true);
         deathDescription.text = deathDescriptions[UnityEngine.Random.Range(0, deathDescriptions.Count)];
@@ -387,6 +426,9 @@ public class PlayerController : MonoBehaviour
         text_playerHealth.text = "Energy: " + health.ToString();
         text_playerMaxHealth.text = "Max Energy: " + healthMax.ToString();
         text_playerSpeed.text = "Move Speed: " + speedMultiplier.ToString();
+        text_playerFrailness.text = "Defense: " + frailnessMultiplier.ToString();
+        text_playerInvincibilityFrames.text = "Invincibility Length: " + invincibilityLengthMax.ToString();
+        bar_playerInvincibilityFrames.fillAmount = Math.Abs((invincibilityLengthMax - invincibilityLengthCurrent) / invincibilityLengthMax);
 
         text_playerTimeSurvived.text = FormatSurvivedTime();
 
@@ -415,6 +457,7 @@ public class PlayerController : MonoBehaviour
         text_bulletAmount.text = "Bullets: " + bulletAmount.ToString();
         text_bulletSpeed.text = "Bullet Speed: " + bulletSpeed.ToString();
         text_bulletCooldown.text = "Firing Rate: " + shootCooldownMax.ToString();
+        bar_bulletCooldown.fillAmount = Math.Abs((shootCooldownMax - shootCooldown)/ shootCooldownMax);
 
         text_bulletSpread.text = "Bullet Spread: " + bulletSpread.ToString();
         text_bulletSizeMultiplier.text = "Bullet Size Multiplier: " + bulletSizeMultiplier.ToString();
@@ -429,6 +472,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Health
+
     public void healPlayer(float amount)
     {
         if (health < healthMax)
@@ -453,17 +497,33 @@ public class PlayerController : MonoBehaviour
             if (frailnessMultiplier > 0)
                 frailness = frailnessMultiplier;
 
-            if (health - damage * frailness <= 0)
+            // If Frailness / Defense is negative, shots actually deal less damage
+            Debug.Log("As such, damage taken will be: " + (health - (damage + damage * frailness)));
+            if ((health - (damage + damage * frailness)) <= 0)
             {
                 isDead = true;
                 StartCoroutine(PlayerDeath());
-                Debug.Log("Player Death!");
+            }
+            else if((damage + ( damage * frailness)) < 0) // Frailness can make damage heal you
+            {
+                // TODO: Not balanced, this should be changed to cap at 0.
+                healPlayer(Mathf.Abs((damage + (damage * frailness))));
             }
             else
             {
-                health -= damage * frailness;
+                health -= ((damage + damage * frailness));
+                ChangePlayerColor(playerColorHurt);
+                colorLerpTimer = colorLerpTimerMax;
             }
         }
+    }
+
+    private void LerpPlayerColor()
+    {
+        colorLerpTimer -= Time.deltaTime;
+        // Lerps player color back to default
+        playerColor = Color.Lerp(playerColor, playerColorDefault, Mathf.PingPong(Time.deltaTime, 1));
+        ChangePlayerColor(playerColor);
     }
 
     IEnumerator PlayerDeath()
@@ -494,6 +554,7 @@ public class PlayerController : MonoBehaviour
         deathPs.GetComponent<ParticleEmission>().PlayParticleBurst();
         playerSprite.SetActive(false);
         EnemySpawnManager.instance.gameEnded = true;
+        UpgradeSpawnManager.instance.gameEnded = true;
         // SoundManager.instance.PlaySound("playerDeath", Vector3.zero, this.gameObject);
         // TODO: Stop music from playing here, then show END SCREEN after a while
         yield return new WaitForSeconds(4f);
@@ -506,6 +567,30 @@ public class PlayerController : MonoBehaviour
     {
         if(rgb.velocity.magnitude < playerMaxVelocity)
             rgb.velocity += movement * speedMultiplier;
+
+        // float z = Mathf.SmoothDamp(zRotation, movement.x, ref rgb.velocity.x, 0.2f);
+
+        //  playerSprite.transform.Rotate(new Vector3(0f,0f, movement.x) * 10f, Space.World);
+
+         /*Vector3 euler = playerSprite.transform.localEulerAngles;
+         Debug.Log("Euler is: " + euler);
+         if (movement.x > 0)
+             euler.z = Mathf.Lerp(euler.z, movement.x * 15f, 2.0f * Time.deltaTime);
+         else if (movement.x < 0)
+             euler.z = Mathf.Lerp(euler.z, movement.x * -15f, 2.0f * Time.deltaTime);
+         else
+             euler.z = Mathf.Lerp(euler.z, 0f, 2.0f * Time.deltaTime);*/
+
+        Vector3 euler = playerSprite.transform.localEulerAngles;
+        if (movement.x > 0)
+            zRotation = Mathf.Lerp(zRotation, -5f, 5f * Time.deltaTime);
+        else if (movement.x < 0)
+            zRotation = Mathf.Lerp(zRotation, 5f, 5f * Time.deltaTime);
+        else
+            zRotation = 0f;
+
+        euler.z = zRotation;
+        playerSprite.transform.rotation = Quaternion.Euler(euler);
     }
 
     private void CheckPlayerInGameSpace()
