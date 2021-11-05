@@ -25685,10 +25685,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Upgrade Tier 2
       objectReference: {fileID: 0}
-    - target: {fileID: 5577905712773326498, guid: 7f7100264982fcf448f530795db1277b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5577905712773326499, guid: 7f7100264982fcf448f530795db1277b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -25732,18 +25728,6 @@ PrefabInstance:
     - target: {fileID: 5577905712773326499, guid: 7f7100264982fcf448f530795db1277b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5577905712773326500, guid: 7f7100264982fcf448f530795db1277b, type: 3}
-      propertyPath: targetValues3.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5577905712773326500, guid: 7f7100264982fcf448f530795db1277b, type: 3}
-      propertyPath: targetValues3.Array.data[2]
-      value: Bullet Size Multiplier
-      objectReference: {fileID: 0}
-    - target: {fileID: 5577905712773326500, guid: 7f7100264982fcf448f530795db1277b, type: 3}
-      propertyPath: targetValues3.Array.data[3]
-      value: Bullet Size Multiplier
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f7100264982fcf448f530795db1277b, type: 3}
@@ -25802,14 +25786,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Upgrade Tier 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8466765726891529843, guid: 40bfca6d447cb4244b6bccc55fcfce30, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8466765726891529845, guid: 40bfca6d447cb4244b6bccc55fcfce30, type: 3}
-      propertyPath: targetValues3.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40bfca6d447cb4244b6bccc55fcfce30, type: 3}
 --- !u!1001 &6204854741520324538
@@ -25866,14 +25842,6 @@ PrefabInstance:
     - target: {fileID: 556474280086953499, guid: 386ff1619d6dbd447a27a94a9c749331, type: 3}
       propertyPath: m_Name
       value: Upgrade Tier 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 556474280086953499, guid: 386ff1619d6dbd447a27a94a9c749331, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 556474280086953501, guid: 386ff1619d6dbd447a27a94a9c749331, type: 3}
-      propertyPath: targetValues3.Array.size
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 386ff1619d6dbd447a27a94a9c749331, type: 3}

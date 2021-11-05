@@ -131,7 +131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &556474280086953498
 Transform:
   m_ObjectHideFlags: 0
@@ -173,11 +173,12 @@ MonoBehaviour:
   targetValues2:
   - Bullets
   - Damage
-  - Lifesteal
   - Luckiness
   targetValues3:
   - Invincibility Length
   - Health Regen
+  - Bullet Size Multiplier
+  - Lifesteal
   positiveIndex: 0
   negativeIndex: 0
   positiveValue: 0

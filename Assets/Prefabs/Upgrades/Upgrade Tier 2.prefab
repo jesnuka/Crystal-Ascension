@@ -5388,7 +5388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5577905712773326499
 Transform:
   m_ObjectHideFlags: 0
@@ -5430,17 +5430,18 @@ MonoBehaviour:
   targetValues2:
   - Bullets
   - Damage
-  - Lifesteal
   - Luckiness
   targetValues3:
   - Invincibility Length
   - Health Regen
+  - Bullet Size Multiplier
+  - Lifesteal
   positiveIndex: 0
   negativeIndex: 0
   positiveValue: 0
   negativeValue: 0
-  positiveString: 0
-  negativeString: 0
+  positiveString: 
+  negativeString: 
   upgradeTier: 2
   canBePickedUp: 0
   lifeTime: 20

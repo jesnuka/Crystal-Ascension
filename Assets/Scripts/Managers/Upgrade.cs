@@ -285,16 +285,14 @@ public class Upgrade : MonoBehaviour
                 }
             case 2:
                 {
-                    player.lifeStealAmount = (player.lifeStealAmount != 0) ? player.lifeStealAmount + (Mathf.Abs(player.lifeStealAmount * value) * Mathf.Sign(value)) :
-                          player.lifeStealAmount + (Mathf.Abs(1 * value) * Mathf.Sign(value));
-                    break;
-                }
-            case 3:
-                {
                     player.luckiness = (player.luckiness != 0) ? player.luckiness + (Mathf.Abs(player.luckiness * value) * Mathf.Sign(value)) :
                              player.luckiness + (Mathf.Abs(1 * value) * Mathf.Sign(value));
                     break;
                 }
+          /*  case 3:
+                {
+                    break;
+                }*/
         }
 
         DestroyUpgradeObject();
@@ -322,16 +320,20 @@ public class Upgrade : MonoBehaviour
                         player.healthRegenAmount + (Mathf.Abs(1 * value) * Mathf.Sign(value));
                     break;
                 }
-           /* case 2:
+            case 2:
                 {
+                    player.bulletSizeMultiplier = (player.bulletSizeMultiplier != 0) ? player.bulletSizeMultiplier + (Mathf.Abs(player.bulletSizeMultiplier * value) * Mathf.Sign(value)) :
+                        player.bulletSizeMultiplier + (Mathf.Abs(1 * value) * Mathf.Sign(value));
                     break;
                 }
             case 3:
                 {
+                    player.lifeStealAmount = (player.lifeStealAmount != 0) ? player.lifeStealAmount + (Mathf.Abs(player.lifeStealAmount * value) * Mathf.Sign(value)) :
+                          player.lifeStealAmount + (Mathf.Abs(1 * value) * Mathf.Sign(value));
                     break;
 
                 }
-            case 4:
+           /* case 4:
                 {
                     break;
                 }
