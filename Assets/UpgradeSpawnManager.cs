@@ -109,6 +109,8 @@ public class UpgradeSpawnManager : MonoBehaviour
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
                 enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.UpdateEnemyStatMultiplier();
             }
 
         }
@@ -120,6 +122,8 @@ public class UpgradeSpawnManager : MonoBehaviour
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
                 enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.UpdateEnemyStatMultiplier();
             }
 
         }
@@ -131,6 +135,8 @@ public class UpgradeSpawnManager : MonoBehaviour
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
                 enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.UpdateEnemyStatMultiplier();
             }
 
         }
@@ -143,6 +149,8 @@ public class UpgradeSpawnManager : MonoBehaviour
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
                 enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.UpdateEnemyStatMultiplier();
             }
 
         }
@@ -155,6 +163,8 @@ public class UpgradeSpawnManager : MonoBehaviour
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
                 enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.UpdateEnemyStatMultiplier();
             }
         }
         else if (timeSurvived < 240 && timeSurvived >= 60) // After 1 minute
@@ -167,6 +177,8 @@ public class UpgradeSpawnManager : MonoBehaviour
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
                 enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.enemyDifficultyIndex += 1;
+                EnemySpawnManager.instance.UpdateEnemyStatMultiplier();
             }
 
 

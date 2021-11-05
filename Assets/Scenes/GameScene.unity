@@ -12390,7 +12390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1705284957
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13877,7 +13877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1870432025
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25730,6 +25730,18 @@ PrefabInstance:
     - target: {fileID: 5577905712773326499, guid: 7f7100264982fcf448f530795db1277b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577905712773326500, guid: 7f7100264982fcf448f530795db1277b, type: 3}
+      propertyPath: targetValues3.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577905712773326500, guid: 7f7100264982fcf448f530795db1277b, type: 3}
+      propertyPath: targetValues3.Array.data[2]
+      value: Bullet Size Multiplier
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577905712773326500, guid: 7f7100264982fcf448f530795db1277b, type: 3}
+      propertyPath: targetValues3.Array.data[3]
+      value: Bullet Size Multiplier
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f7100264982fcf448f530795db1277b, type: 3}

@@ -19,6 +19,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] Vector2 bulletDirection;
 
     [SerializeField] bool isEnemyBullet;
+    [SerializeField] Enemy parentEnemy;
+    [SerializeField] float lifeStealAmount;
 
     private void Awake()
     {
@@ -36,8 +38,11 @@ public class Bullet : MonoBehaviour
         Physics2D.IgnoreLayerCollision(10, 11, true);
     }
 
-    public void ShootBullet(float damage, float lifetime, float speed, Vector2 direction, Color bColor, float sizeMultiplier)
+    public void ShootBullet(float damage, float lifetime, float speed, Vector2 direction, Color bColor, float sizeMultiplier, float lifeSteal, Enemy parent = default(Enemy))
     {
+        if (isEnemyBullet && parent != null)
+            parentEnemy = parent;
+
         bulletDamage = damage;
         bulletLifetime = lifetime;
         bulletSpeed = speed;
@@ -45,6 +50,9 @@ public class Bullet : MonoBehaviour
         bulletMaterial.SetColor("Color_C13AA74B", bulletColor);
         bulletDirection = direction;
         this.transform.localScale = transform.localScale * sizeMultiplier;
+
+        if (lifeSteal > 0)
+            lifeStealAmount = lifeSteal;
 
         var lookDir = direction - (Vector2)transform.position;
         direction.Normalize();
@@ -86,7 +94,10 @@ public class Bullet : MonoBehaviour
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             if(player != null)
+            {
                 player.TakeDamage(bulletDamage);
+                parentEnemy.healEnemy(lifeStealAmount * bulletDamage);
+            }
             if(!player.isDead && !isGone)
                 DestroyBullet();
         }
@@ -94,7 +105,10 @@ public class Bullet : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if(enemy != null)
+            {
                 enemy.TakeDamage(bulletDamage);
+                PlayerController.instance.healPlayer(lifeStealAmount * bulletDamage);
+            }
             if(!isGone)
                 DestroyBullet();
         }

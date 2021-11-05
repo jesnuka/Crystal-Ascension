@@ -9,7 +9,7 @@ public class EnemySpawnManager : MonoBehaviour
     [Header("Enemies")]
     [SerializeField] List<GameObject> enemyList;
     [Tooltip("As time goes up, more varieties of enemies are spawned")]
-    [SerializeField] int enemyDifficultyIndex;
+    [SerializeField] public int enemyDifficultyIndex;
 
     [Header("Difficulty")]
     [SerializeField] float timeSurvived;
@@ -76,6 +76,14 @@ public class EnemySpawnManager : MonoBehaviour
             }
         }
        
+    }
+
+    public void UpdateEnemyStatMultiplier()
+    {
+        speedMultiplier = speedMultiplier * 1.25f;
+        fireRateMultiplier = fireRateMultiplier * 1.25f;
+        damageMultiplier = damageMultiplier * 1.25f;
+        bulletSizeExtraMultiplier = bulletSizeExtraMultiplier * 1.25f;
     }
 
     private void HandleDifficulty()

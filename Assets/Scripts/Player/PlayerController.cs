@@ -510,10 +510,10 @@ public class PlayerController : MonoBehaviour
         text_bulletSizeMultiplier.text = "Bullet Size Multiplier: " + bulletSizeMultiplier.ToString();
         text_bulletLifetime.text = "Bullet Lifetime: " + bulletLifetime.ToString();
 
-        if (bulletBounces > 0)
-            text_bulletBounces.text = "Bullet Bounces: " + bulletBounces.ToString();
-        else
-            text_bulletBounces.text = "";
+       // if (bulletBounces > 0)
+       //     text_bulletBounces.text = "Bullet Bounces: " + bulletBounces.ToString();
+      //  else
+      //      text_bulletBounces.text = "";
 
     }
     #endregion
@@ -734,7 +734,7 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < bulletAmount; i++)
         {
             GameObject bullet = Instantiate(bulletObject, this.transform.position, Quaternion.identity);
-            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier);
+            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmount);
         }
     }
 
