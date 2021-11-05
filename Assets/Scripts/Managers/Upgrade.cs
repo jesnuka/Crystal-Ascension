@@ -72,7 +72,7 @@ public class Upgrade : MonoBehaviour
                     positiveIndex = Random.Range(0, targetValues1.Count);
                     negativeIndex = Random.Range(0, targetValues1.Count);
                     if (positiveIndex == negativeIndex)
-                        negativeIndex = (negativeIndex - 1) % targetValues1.Count;
+                        negativeIndex = Mathf.Abs((negativeIndex - 1) % targetValues1.Count);
 
                     //  positiveUIText.text = targetValues1[positiveIndex];
                     //  negativeUIText.text = targetValues1[negativeIndex];
@@ -93,7 +93,7 @@ public class Upgrade : MonoBehaviour
                     positiveIndex = Random.Range(0, targetValues2.Count);
                     negativeIndex = Random.Range(0, targetValues2.Count);
                     if (positiveIndex == negativeIndex)
-                        negativeIndex = (negativeIndex - 1) % targetValues2.Count;
+                        negativeIndex = Mathf.Abs((negativeIndex - 1) % targetValues2.Count);
 
                     //  positiveUIText.text = targetValues2[positiveIndex];
                     //  negativeUIText.text = targetValues2[negativeIndex];
@@ -114,8 +114,9 @@ public class Upgrade : MonoBehaviour
                     positiveIndex = Random.Range(0, targetValues3.Count);
                     negativeIndex = Random.Range(0, targetValues3.Count);
                     if (positiveIndex == negativeIndex)
-                        negativeIndex = (negativeIndex - 1) % targetValues3.Count;
+                        negativeIndex = Mathf.Abs((negativeIndex - 1) % targetValues3.Count);
 
+                    
                     //  positiveUIText.text = targetValues3[positiveIndex];
                     //  negativeUIText.text = targetValues3[negativeIndex];
 
@@ -321,7 +322,7 @@ public class Upgrade : MonoBehaviour
                         player.healthRegenAmount + (Mathf.Abs(1 * value) * Mathf.Sign(value));
                     break;
                 }
-            case 2:
+           /* case 2:
                 {
                     break;
                 }
@@ -337,7 +338,7 @@ public class Upgrade : MonoBehaviour
             case 5:
                 {
                     break;
-                }
+                }*/
         }
 
         DestroyUpgradeObject();

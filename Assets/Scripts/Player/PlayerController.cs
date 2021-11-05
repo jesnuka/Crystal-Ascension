@@ -173,6 +173,13 @@ public class PlayerController : MonoBehaviour
             else
                 ChangePlayerColor(playerColorDefault);
 
+
+            // TODO: Fix negatives!!
+            if (healthRegenAmount != 0)
+                canHealthRegen = true;
+            if (lifeStealAmount != 0)
+                canLifeSteal = true;
+
             if (canHealthRegen)
                 healPlayer(healthRegenAmount);
         }
@@ -493,27 +500,50 @@ public class PlayerController : MonoBehaviour
     {
         if(!isDead)
         {
-            float frailness = 1;
-            if (frailnessMultiplier > 0)
-                frailness = frailnessMultiplier;
+            // Defense works as a "layer", so damage does not go through if it is there.
+            // Current solution, negative values do nothing, but buffer "not having" defense!
+            //Debug.Log("As such, damage taken will be: " + (health - (damage + damage * frailness)));
+          //  if ((health - (damage + damage * frailness)) <= 0)
 
-            // If Frailness / Defense is negative, shots actually deal less damage
-            Debug.Log("As such, damage taken will be: " + (health - (damage + damage * frailness)));
-            if ((health - (damage + damage * frailness)) <= 0)
+
+            // Cases where Defense is over 0, and where it isn't. If it's less than 0, do not take into account.
+            if(frailnessMultiplier > 0)
             {
-                isDead = true;
-                StartCoroutine(PlayerDeath());
-            }
-            else if((damage + ( damage * frailness)) < 0) // Frailness can make damage heal you
-            {
-                // TODO: Not balanced, this should be changed to cap at 0.
-                healPlayer(Mathf.Abs((damage + (damage * frailness))));
+                if (frailnessMultiplier < damage)
+                {
+                    if (health - Math.Abs((frailnessMultiplier - damage)) <= 0)
+                    {
+                        isDead = true;
+                        StartCoroutine(PlayerDeath());
+                    }
+                    else
+                    {
+                        if (frailnessMultiplier <= damage) 
+                            health -= Math.Abs((frailnessMultiplier - damage));
+                        ChangePlayerColor(playerColorHurt);
+                        colorLerpTimer = colorLerpTimerMax;
+                    }
+                }
+                else // Frailness is better than damage, do nothing
+                {
+                    Debug.Log("Defense!");
+                    // Play "Dink" sound effect?
+                }
+                    
             }
             else
             {
-                health -= ((damage + damage * frailness));
-                ChangePlayerColor(playerColorHurt);
-                colorLerpTimer = colorLerpTimerMax;
+                if (health - damage <= 0)
+                {
+                    isDead = true;
+                    StartCoroutine(PlayerDeath());
+                }
+                else
+                {
+                    health -= damage;
+                    ChangePlayerColor(playerColorHurt);
+                    colorLerpTimer = colorLerpTimerMax;
+                }
             }
         }
     }

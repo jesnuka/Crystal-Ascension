@@ -182,8 +182,8 @@ MonoBehaviour:
   negativeIndex: 0
   positiveValue: 0
   negativeValue: 0
-  positiveString: 0
-  negativeString: 0
+  positiveString: 
+  negativeString: 
   upgradeTier: 3
   canBePickedUp: 0
   lifeTime: 20
@@ -5442,7 +5442,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tier 1
+  m_text: Tier 3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c498b9baef4f33d40bd57f6acdb7ea39, type: 2}
   m_sharedMaterial: {fileID: -1730627252072369936, guid: c498b9baef4f33d40bd57f6acdb7ea39, type: 2}

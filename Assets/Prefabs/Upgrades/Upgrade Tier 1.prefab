@@ -5439,8 +5439,8 @@ MonoBehaviour:
   negativeIndex: 0
   positiveValue: 0
   negativeValue: 0
-  positiveString: 0
-  negativeString: 0
+  positiveString: 
+  negativeString: 
   upgradeTier: 1
   canBePickedUp: 0
   lifeTime: 20

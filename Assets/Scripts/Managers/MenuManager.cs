@@ -18,6 +18,12 @@ public class MenuManager : MonoBehaviour
     [SerializeField] float musicVolume;
     [SerializeField] float soundVolume;
 
+    [SerializeField] float musicVolumeEarlier;
+    [SerializeField] float soundVolumeEarlier;
+
+   // [SerializeField] AudioSource menuMusicSource;
+  //  [SerializeField] AudioSource gameMusicSource;
+
     [SerializeField] Slider slider_MusicVolume;
     [SerializeField] Slider slider_SoundVolume;
 
@@ -30,22 +36,75 @@ public class MenuManager : MonoBehaviour
     bool settingsLoaded;
     bool settingsSaved;
 
+    bool musicTransitioned;
+
 
     void Update()
     {
-        if (panel_Settings.activeSelf)
+        if (panel_Settings.activeSelf && musicTransitioned)
             UpdateSettings();
+
+        if(!musicTransitioned)
+        {
+            if (SettingsManager.instance.menuMusicSource.volume == (musicVolume / 100f))
+            {
+                SettingsManager.instance.gameMusicSource.Stop();
+                SettingsManager.instance.gameMusicSource.volume = (musicVolume / 100f);
+                musicTransitioned = true;
+            }
+        }
     }
 
     private void Start()
     {
+        if (SettingsManager.instance.returned)
+        {
+            StartCoroutine(StartFade(SettingsManager.instance.gameMusicSource, 2f, 0f));
+        }
+
+        SettingsManager.instance.menuMusicSource.volume = 0f;
+        // SettingsManager.instance.menuMusicSource.volume = Mathf.Lerp(0f, (musicVolume / 100f), Time.deltaTime);
+        StartCoroutine(StartFade(SettingsManager.instance.menuMusicSource, 2f, (musicVolume / 100f)));
+
+
+        SettingsManager.instance.menuMusicSource.Play();
         LoadSettings();
+        // SettingsManager.instance.gameMusicSource.Stop();
+        SettingsManager.instance.inMenu = true;
+        SettingsManager.instance.inGame = false;
+    }
+    #region Music
+    public static IEnumerator StartFade(AudioSource source, float duration, float targetVolume)
+    {
+        float currentTime = 0;
+        float start = source.volume;
+
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            source.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
+            yield return null;
+        }
+        yield break;
     }
 
+    #endregion
     #region Navigation
 
     public void ReturnToMenu()
     {
+        if(settingsSaved == false)
+        {
+            musicVolume = musicVolumeEarlier;
+            soundVolume = soundVolumeEarlier;
+            slider_MusicVolume.value = musicVolume;
+            slider_SoundVolume.value = soundVolume;
+            SettingsManager.instance.menuMusicSource.volume = (musicVolume / 100f);
+            SettingsManager.instance.gameMusicSource.volume = (musicVolume / 100f);
+
+            text_MusicVolume.text = (slider_MusicVolume.value).ToString() + "%";
+            text_SoundVolume.text = (slider_SoundVolume.value).ToString() + "%";
+        }
         panel_Credits.SetActive(false);
         panel_Settings.SetActive(false);
         panel_Unlockables.SetActive(false);
@@ -56,6 +115,9 @@ public class MenuManager : MonoBehaviour
 
     public void GoToSettings()
     {
+        musicVolumeEarlier = slider_MusicVolume.value;
+        soundVolumeEarlier = slider_SoundVolume.value;
+
         panel_Credits.SetActive(false);
         panel_Unlockables.SetActive(false);
         panel_MainMenu.SetActive(false);
@@ -95,7 +157,8 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
-        Debug.Log("Start!");
+        SettingsManager.instance.menuMusicSource.Stop();
+        SettingsManager.instance.inMenu = false;
         SceneManager.LoadScene("GameScene");
     }
 
@@ -125,6 +188,8 @@ public class MenuManager : MonoBehaviour
     {
         // musicVolume = slider_MusicVolume.value;
         text_MusicVolume.text = (slider_MusicVolume.value).ToString() + "%";
+        SettingsManager.instance.menuMusicSource.volume = (slider_MusicVolume.value / 100f);
+        SettingsManager.instance.gameMusicSource.volume = (slider_MusicVolume.value / 100f);
         if (musicVolume != slider_MusicVolume.value)
         {
             settingsSaved = false;
@@ -162,6 +227,15 @@ public class MenuManager : MonoBehaviour
 
         soundVolume = (float)System.Math.Round(slider_SoundVolume.value);
         musicVolume = (float)System.Math.Round(slider_MusicVolume.value);
+
+        musicVolumeEarlier = musicVolume;
+        soundVolumeEarlier = soundVolume;
+
+        SettingsManager.instance.musicVolume = musicVolume;
+        SettingsManager.instance.soundVolume = soundVolume;
+
+        SettingsManager.instance.menuMusicSource.volume = (musicVolume / 100f);
+        SettingsManager.instance.gameMusicSource.volume = (musicVolume / 100f);
 
         settingsSaved = true;
 

@@ -5,20 +5,36 @@ using UnityEngine.SceneManagement;
 
 public class SettingsManager : MonoBehaviour
 {
-  // [Header("References")]
-  // [SerializeField] 
+    public static SettingsManager instance;
+
+    // [Header("References")]
+    // [SerializeField] 
 
     [Header("Settings")]
-    [SerializeField] float musicVolume;
-    [SerializeField] float soundVolume;
+    [SerializeField] public float musicVolume;
+    [SerializeField] public float soundVolume;
+
+    [SerializeField] public AudioSource menuMusicSource;
+    [SerializeField] public AudioSource gameMusicSource;
 
     [Header("State")]
-    [SerializeField] bool inMenu;
-    [SerializeField] bool inGame;
+    [SerializeField] public bool inMenu;
+    [SerializeField] public bool inGame;
+    [SerializeField] public bool returned;
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     // Update is called once per frame
@@ -32,11 +48,13 @@ public class SettingsManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name.Equals("GameScene"))
         {
+            Debug.Log("Play");
             Debug.Log("In game scene");
             inGame = true;
+            returned = true;
             TransferSettings();
+            gameMusicSource.Play();
         }
-        
     }
 
     private void TransferSettings()
