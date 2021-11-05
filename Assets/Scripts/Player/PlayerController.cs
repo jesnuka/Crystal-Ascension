@@ -12,7 +12,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Rigidbody2D rgb;
+    [SerializeField] SpriteRenderer playerSpriteRenderer_Color;
+    [SerializeField] SpriteRenderer playerSpriteRenderer_White;
     [SerializeField] Material playerColorMaterial;
+    [SerializeField] Collider2D playerCollider;
     [SerializeField] GameObject deathParticles;
     [SerializeField] GameObject playerSprite;
 
@@ -56,11 +59,14 @@ public class PlayerController : MonoBehaviour
     [Header("Player Values")]
     [SerializeField] public int upgradesTaken;
     [SerializeField] float timeSurvived;
+    [ColorUsage(true, true)] [SerializeField] Color playerSpriteColorDefault;
+    [ColorUsage(true, true)] [SerializeField] Color playerSpriteColorInvis;
+    [ColorUsage(true, true)] [SerializeField] Color playerSpriteColor;
     [ColorUsage(true, true)] [SerializeField] Color playerColorDefault;
     [ColorUsage(true, true)] [SerializeField] Color playerColorHurt;
     [ColorUsage(true, true)] [SerializeField] Color playerColor;
-    [SerializeField] float colorLerpTimer;
-    [SerializeField] float colorLerpTimerMax;
+  //  [SerializeField] float colorLerpTimer;
+  //  [SerializeField] float colorLerpTimerMax;
 
     [SerializeField] int score;
     [SerializeField] public int scoreMultiplier;
@@ -72,7 +78,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float healthMax;
     [SerializeField] public float health;
     [SerializeField] public float healthRegenAmount;
+
+    // To counter how OP health regen is, there is always a delay, which is consistent 
+    [SerializeField] public float healthRegenDelay;
+    [SerializeField] public float healthRegenDelayMax;
+
     [SerializeField] public float lifeStealAmount;
+
+
                       
     [SerializeField] public bool canHealthRegen;
     [SerializeField] public bool canLifeSteal;
@@ -146,7 +159,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        ChangePlayerColor(playerColorDefault);
+        ChangePlayerColor(playerColorDefault, playerSpriteColorDefault);
     }
 
     private void Start()
@@ -168,20 +181,44 @@ public class PlayerController : MonoBehaviour
 
             CheckPlayerInGameSpace();
 
-            if (colorLerpTimer > 0)
+           // if (colorLerpTimer > 0) // This is also invicibility timer
+            if (invincibilityLengthCurrent > 0) // This is also invicibility timer
+            {
+                //  playerCollider.enabled = false;
+
+
+                // Instead, ignore collision betwen player and enemy + enemyBullets
+                Physics2D.IgnoreLayerCollision(8, 11, true);
+                Physics2D.IgnoreLayerCollision(8, 12, true);
                 LerpPlayerColor();
+            }
             else
-                ChangePlayerColor(playerColorDefault);
+            {
+                ChangePlayerColor(playerColorDefault, playerSpriteColorDefault);
+                // Dont disable, doesn't allow picking up items
+                // playerCollider.enabled = true;
 
+                Physics2D.IgnoreLayerCollision(8, 11, false);
+                Physics2D.IgnoreLayerCollision(8, 12, false);
+            }
+            if(healthRegenDelay > 0)
+                healthRegenDelay -= Time.deltaTime;
 
-            // TODO: Fix negatives!!
-            if (healthRegenAmount != 0)
-                canHealthRegen = true;
-            if (lifeStealAmount != 0)
-                canLifeSteal = true;
+            if (healthRegenDelay <= 0) // Once delay is ready, can heal
+            {
+                if (healthRegenAmount > 0)
+                    canHealthRegen = true;
+                else
+                    canHealthRegen = false;
 
-            if (canHealthRegen)
-                healPlayer(healthRegenAmount);
+                if (lifeStealAmount > 0)
+                    canLifeSteal = true;
+                else
+                    canLifeSteal = false;
+
+                if (canHealthRegen)
+                    healPlayer(healthRegenAmount);
+            }
         }
         else if(health <= 0 && !isDead)
         {
@@ -213,10 +250,13 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void ChangePlayerColor(Color newColor)
+    public void ChangePlayerColor(Color newColor, Color spriteColor)
     {
+        playerSpriteColor = spriteColor;
         playerColor = newColor;
         playerColorMaterial.SetColor("Color_C13AA74B", playerColor);
+        playerSpriteRenderer_Color.color = spriteColor;
+        playerSpriteRenderer_White.color = spriteColor;
     }
     #region Score
     public void AddScore(int newScore)
@@ -482,17 +522,29 @@ public class PlayerController : MonoBehaviour
 
     public void healPlayer(float amount)
     {
-        if (health < healthMax)
+        if(amount >= 0)
         {
-            if ((health + amount) < healthMax)
+            if (health < healthMax)
             {
-                health += amount;
-            }
-            else if ((health + amount) >= healthMax)
-            {
-                health = healthMax;
-            }
+                if ((health + amount) < healthMax)
+                {
+                    Debug.Log("Healing");
+                    healthRegenDelay = healthRegenDelayMax;
+                    health += amount;
+                }
+                else if ((health + amount) >= healthMax)
+                {
+                    Debug.Log("heal max");
+                    healthRegenDelay = healthRegenDelayMax;
+                    health = healthMax;
+                }
 
+            }
+        }
+        else // Apparently this deals damage, so takeDamage
+        {
+            Debug.Log("Take damage");
+            TakeDamage(amount);
         }
     }
 
@@ -520,8 +572,9 @@ public class PlayerController : MonoBehaviour
                     {
                         if (frailnessMultiplier <= damage) 
                             health -= Math.Abs((frailnessMultiplier - damage));
-                        ChangePlayerColor(playerColorHurt);
-                        colorLerpTimer = colorLerpTimerMax;
+                        ChangePlayerColor(playerColorHurt, playerSpriteColorInvis);
+                        // colorLerpTimer = colorLerpTimerMax;
+                        invincibilityLengthCurrent = invincibilityLengthMax;
                     }
                 }
                 else // Frailness is better than damage, do nothing
@@ -541,8 +594,9 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     health -= damage;
-                    ChangePlayerColor(playerColorHurt);
-                    colorLerpTimer = colorLerpTimerMax;
+                    ChangePlayerColor(playerColorHurt, playerSpriteColorInvis);
+                    // colorLerpTimer = colorLerpTimerMax;
+                    invincibilityLengthCurrent = invincibilityLengthMax;
                 }
             }
         }
@@ -550,10 +604,14 @@ public class PlayerController : MonoBehaviour
 
     private void LerpPlayerColor()
     {
-        colorLerpTimer -= Time.deltaTime;
+        //  colorLerpTimer -= Time.deltaTime;
+        invincibilityLengthCurrent -= Time.deltaTime;
         // Lerps player color back to default
-        playerColor = Color.Lerp(playerColor, playerColorDefault, Mathf.PingPong(Time.deltaTime, 1));
-        ChangePlayerColor(playerColor);
+      //  playerColor = Color.Lerp(playerColor, playerColorDefault, Mathf.PingPong(Time.deltaTime, invincibilityLengthMax));
+      //  playerSpriteColor = Color.Lerp(playerSpriteColor, playerSpriteColorDefault, Mathf.PingPong(Time.deltaTime, invincibilityLengthMax));
+        playerColor = Color.Lerp(playerColor, playerColorDefault, Time.deltaTime / invincibilityLengthMax );
+        playerSpriteColor = Color.Lerp(playerSpriteColor, playerSpriteColorDefault, Time.deltaTime / invincibilityLengthMax);
+        ChangePlayerColor(playerColor, playerSpriteColor);
     }
 
     IEnumerator PlayerDeath()
