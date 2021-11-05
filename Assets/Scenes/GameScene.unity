@@ -531,12 +531,14 @@ MonoBehaviour:
   universalLifesteal: 0
   allCanHealthRegen: 0
   universalHealthRegen: 0
+  enemyAmountMax: 35
+  enemyAmountCurrent: 0
   gameStarted: 0
   gameEnded: 0
   gameStartTimer: 2
   spawnTimer: 0
   spawnTimerMax: 6
-  spawnTimerDecreaseMultiplier: 0
+  spawnTimerDecreaseMultiplier: 1
 --- !u!4 &41873405
 Transform:
   m_ObjectHideFlags: 0

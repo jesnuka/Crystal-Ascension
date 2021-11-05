@@ -7,6 +7,7 @@ using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
+    public static MenuManager instance;
     [Header("UI References")]
     [SerializeField] GameObject panel_MainMenu;
     [SerializeField] GameObject panel_Settings;
@@ -38,6 +39,20 @@ public class MenuManager : MonoBehaviour
 
     bool musicTransitioned;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     void Update()
     {

@@ -27,6 +27,8 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] public float universalHealthRegen;
 
     [Header("Spawning")]
+    [SerializeField] int enemyAmountMax;
+    [SerializeField] public int enemyAmountCurrent;
     [SerializeField] bool gameStarted;
     [SerializeField] public bool gameEnded;
     [Tooltip("Spawn enemies after small delay at first, no instant spawning")]
@@ -54,7 +56,7 @@ public class EnemySpawnManager : MonoBehaviour
     {
         if(gameStarted && !gameEnded)
         {
-            spawnTimer -= Time.deltaTime;
+            spawnTimer -= spawnTimerDecreaseMultiplier * Time.deltaTime;
             timeSurvived += Time.deltaTime;
 
             HandleDifficulty();
@@ -62,7 +64,8 @@ public class EnemySpawnManager : MonoBehaviour
             if (spawnTimer < 0)
             {
                 spawnTimer = spawnTimerMax;
-                SpawnEnemy();
+                if(enemyAmountCurrent < enemyAmountMax)
+                    SpawnEnemy();
             }
         }
         else
@@ -84,6 +87,7 @@ public class EnemySpawnManager : MonoBehaviour
         fireRateMultiplier = fireRateMultiplier * 1.25f;
         damageMultiplier = damageMultiplier * 1.25f;
         bulletSizeExtraMultiplier = bulletSizeExtraMultiplier * 1.25f;
+        spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.1f;
     }
 
     private void HandleDifficulty()
@@ -91,10 +95,13 @@ public class EnemySpawnManager : MonoBehaviour
 
         // TODO: Add certain time frames when new enemies will start spawning (Can be randomized between some vlaues, such as 2 minutes etc..)
         // Need to make this into an infinite system, so game always changes even after 1 hour etc.
+
+        // UpgradeSpawnManager handles most of this
     }
 
     private void SpawnEnemy()
     {
+        enemyAmountCurrent += 1;
         int index = Random.Range(0, enemyDifficultyIndex);
         GameObject enemyObject = Instantiate(enemyList[index], RandomizeSpawnPoint(), Quaternion.identity);
         Enemy enemy = enemyObject.GetComponent<Enemy>();

@@ -139,6 +139,7 @@ abstract public class Enemy : MonoBehaviour
         enemySprite.SetActive(false);
         CalculateScore();
         UpgradeSpawnManager.instance.SpawnUpgrade(transform.position);
+        EnemySpawnManager.instance.enemyAmountCurrent -= 1;
         EnemyDeathExtra();
     }
     #endregion

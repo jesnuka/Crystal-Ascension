@@ -196,6 +196,7 @@ public class UpgradeSpawnManager : MonoBehaviour
             spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
             upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
             timeSurvivedExtreme = 0f;
+            EnemySpawnManager.instance.UpdateEnemyStatMultiplier();
         }
     }
 
