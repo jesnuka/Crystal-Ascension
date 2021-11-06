@@ -57,12 +57,13 @@ public class EnemySpawnManager : MonoBehaviour
     {
         if(gameStarted && !gameEnded)
         {
-            spawnTimer -= spawnTimerDecreaseMultiplier * Time.deltaTime;
+            if(spawnTimer > 0)
+                spawnTimer -= spawnTimerDecreaseMultiplier * Time.deltaTime;
             timeSurvived += Time.deltaTime;
 
             HandleDifficulty();
 
-            if (spawnTimer < 0)
+            if (spawnTimer <= 0)
             {
                 spawnTimer = spawnTimerMax;
                 if(enemyAmountCurrent < enemyAmountMax)
@@ -114,8 +115,18 @@ public class EnemySpawnManager : MonoBehaviour
 
     private Vector2 RandomizeSpawnPoint()
     {
-        // TODO: This is wrong, this needs to spawn always outside the screen! then, perhaps add timer before shooting is allowed (Don't shoot from outside screen at first!)
-        Vector2 screenPos = Camera.main.ScreenToWorldPoint(new Vector2(Random.Range(0, Screen.width), Random.Range(0, Screen.height)));
-        return screenPos;
+        // TODO: perhaps add timer before shooting is allowed (Don't shoot from outside screen at first!)
+        // TODO: Make sure enemies spawn outside screen!
+        //Vector2 screenPos = Camera.main.ScreenToWorldPoint(new Vector2(Random.Range(0, Screen.width), Random.Range(0, Screen.height)));
+
+        // Randomize point inside unit Circle, then locate it around the player
+        Vector2 ranPosition = PlayerController.instance.transform.position;
+        // ranPosition = Random.insideUnitCircle.normalized * (Random.Range(Screen.width/2f, Screen.width));
+        ranPosition = ranPosition + Random.insideUnitCircle.normalized * Screen.width/2f;
+     //   ranPosition += (Vector2)PlayerController.instance.transform.position;
+     //  Debug.Log("ranposition is: " + ranPosition);
+       // Vector2 screenPos = Camera.main.ScreenToWorldPoint(ranPosition);
+        Vector2 spawnPoint = ranPosition;
+        return spawnPoint;
     }
 }

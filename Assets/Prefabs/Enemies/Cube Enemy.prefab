@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  rgb: {fileID: 0}
   enemyColorMaterial: {fileID: 2100000, guid: 0737016e8a3ce984e971139706797005, type: 2}
   deathParticles: {fileID: 6553807974812322330, guid: 39f518037e7520a4aa625eb0edd7a0e3, type: 3}
   enemySprite: {fileID: 3024618871816650352}
+  enemySpriteColored: {fileID: 3024618872279005584}
   enemyColorDefault: {r: 0, g: 0, b: 0, a: 0}
   enemyColor: {r: 0, g: 0, b: 0, a: 0}
   enemyScore: 5
@@ -67,7 +67,8 @@ MonoBehaviour:
   isInGameSpace: 0
   deathTimer: 1
   startDeathTimer: 0
-  canShoot: 1
+  canShoot: 0
+  distanceToPlayer: 0
   bulletObject: {fileID: 3766109770862448045, guid: ff773acfc2b982d48913dd5dc366c7a8, type: 3}
   bulletColor: {r: 0, g: 0, b: 0, a: 0}
   bulletDamage: 1

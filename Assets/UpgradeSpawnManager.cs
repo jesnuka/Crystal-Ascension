@@ -48,6 +48,8 @@ public class UpgradeSpawnManager : MonoBehaviour
     [SerializeField] float timeSurvivedExtreme;
     [SerializeField] public bool gameStarted;
     [SerializeField] public bool gameEnded;
+
+    // Not even used, upgrades spawn by enemies dying
     [SerializeField] float spawnTimer;
     [SerializeField] float spawnTimerMax;
     [Tooltip("The longer the game goes on, the more frequently upgrades are spawned")]
@@ -76,7 +78,8 @@ public class UpgradeSpawnManager : MonoBehaviour
     {
         if (gameStarted && !gameEnded)
         {
-            spawnTimer -= Time.deltaTime;
+         //   if(spawnTimer > 0)
+         //       spawnTimer -= Time.deltaTime;
             timeSurvived += Time.deltaTime;
 
             if (difficultyIndex <= 5)

@@ -6,11 +6,11 @@ abstract public class Enemy : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] public PlayerController player;
-    [SerializeField] public Rigidbody2D rgb;
     [SerializeField] public Material enemyColorMaterial;
     [SerializeField] public ParticleSystem deathParticles;
 
     [SerializeField] public GameObject enemySprite;
+    [SerializeField] public GameObject enemySpriteColored;
 
     [Header("Enemy Stats")]
     [SerializeField] public Color enemyColorDefault;
@@ -46,6 +46,7 @@ abstract public class Enemy : MonoBehaviour
     [Header("Bullets")]
     [Tooltip("Enemy can't shoot until it is inside the screen")]
     [SerializeField] public bool canShoot;
+    [SerializeField] public float distanceToPlayer;
 
     [SerializeField] public GameObject bulletObject;
     [SerializeField] public Color bulletColor;
@@ -71,6 +72,17 @@ abstract public class Enemy : MonoBehaviour
         ChildUpdate();
         if(!isDead)
         {
+            if(!canShoot)
+            {
+                // Don't allow shooting until close enough to the player, meaning enemy is visible
+               // distanceToPlayer = Vector2.Distance(transform.position, PlayerController.instance.transform.position);
+              //  if (distanceToPlayer < Screen.width)
+                if (enemySpriteColored.GetComponent<Renderer>().isVisible)
+                {
+                    Debug.Log("Can shoot now!");
+                    canShoot = true;
+                }
+            }
             CountdownTimers();
             MoveEnemy();
             if(canShoot)
