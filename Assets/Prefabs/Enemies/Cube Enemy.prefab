@@ -53,11 +53,13 @@ MonoBehaviour:
   enemyColorDefault: {r: 0, g: 0, b: 0, a: 0}
   enemyColor: {r: 0, g: 0, b: 0, a: 0}
   enemyScore: 5
-  healthMax: 2
-  health: 2
+  healthMax: 1
+  health: 1
   healthRegenAmount: 0
+  healthRegenAmountTrue: 0
   canHealthRegen: 0
   lifeStealAmount: 0
+  lifeStealAmountTrue: 0
   canLifeSteal: 0
   speedMultiplier: 50
   enemyMaxVelocity: 50
@@ -71,7 +73,7 @@ MonoBehaviour:
   bulletDamage: 1
   bulletAmount: 1
   bulletSpread: 0
-  bulletSpeed: 50
+  bulletSpeed: 40
   bulletLifetime: 10
   bulletBounces: 0
   bulletSizeMultiplier: 1

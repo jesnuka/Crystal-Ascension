@@ -5388,7 +5388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8466765726891529842
 Transform:
   m_ObjectHideFlags: 0
@@ -5436,12 +5436,12 @@ MonoBehaviour:
   - Health Regen
   - Bullet Size Multiplier
   - Lifesteal
-  positiveIndex: 0
-  negativeIndex: 0
-  positiveValue: 0
-  negativeValue: 0
-  positiveString: 
-  negativeString: 
+  positiveIndex: 2
+  negativeIndex: 1
+  positiveValue: 0.42067975
+  negativeValue: -0.4304503
+  positiveString: Move Speed
+  negativeString: Firing Rate
   upgradeTier: 1
   canBePickedUp: 0
   lifeTime: 20

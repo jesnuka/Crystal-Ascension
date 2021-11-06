@@ -85,10 +85,10 @@ public class SoundManager: MonoBehaviour
         return 0.1f;
     }
 
-    public bool PlaySoundOnce(string name, Vector3 position, GameObject parent)
+    public bool PlaySoundOnce(string name, Vector3 position, GameObject parent, bool hasPosition)
     {
         Sound soundNew = Array.Find(soundList, sound => sound.name == name);
-        if (position == Vector3.zero)
+        if (!hasPosition && position == Vector3.zero)
         {
             if (soundNew != null)
             {
@@ -114,9 +114,9 @@ public class SoundManager: MonoBehaviour
             soundGameObject.GetComponent<AudioSource>().pitch = soundNew.audioSource.pitch;
             soundGameObject.GetComponent<AudioSource>().spatialBlend = soundNew.audioSource.spatialBlend;
             soundGameObject.GetComponent<AudioSource>().loop = soundNew.audioSource.loop;
-          //  soundGameObject.GetComponent<AudioFollower>().isLooping = soundNew.audioSource.loop;
-          //  soundGameObject.GetComponent<AudioFollower>().lifeTime = soundNew.audioSource.clip.length;
-          //  soundGameObject.GetComponent<AudioFollower>().lifeTimeCounter = soundNew.audioSource.clip.length;
+            //  soundGameObject.GetComponent<AudioFollower>().isLooping = soundNew.audioSource.loop;
+              soundGameObject.GetComponent<AudioFollower>().lifeTime = soundNew.audioSource.clip.length;
+              soundGameObject.GetComponent<AudioFollower>().lifeTimeCounter = soundNew.audioSource.clip.length;
 
             if (parent != null)
             {

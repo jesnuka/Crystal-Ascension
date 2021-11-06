@@ -9,7 +9,6 @@ public class AudioFollower : MonoBehaviour
 
     public bool isDone;
     public bool isLooping;
-
     void Update()
     {
         lifeTimeCounter -= Time.deltaTime;
@@ -19,7 +18,7 @@ public class AudioFollower : MonoBehaviour
             this.transform.position = this.transform.parent.position;
         }
 
-        if(!isLooping && lifeTimeCounter < 0)
+        if(lifeTimeCounter < 0)
         {
             //  Destroy(this.gameObject);
             isDone = true;

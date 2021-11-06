@@ -19,6 +19,7 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] public float fireRateMultiplier;
     [SerializeField] public float damageMultiplier;
     [SerializeField] public float bulletSizeExtraMultiplier;
+    [SerializeField] public float healthMultiplier;
 
     // If player gets some upgrade, it can give all enemies lifesteal and health regen, which is added on top of their own ones.
     [SerializeField] public bool allCanLifesteal;
@@ -87,6 +88,7 @@ public class EnemySpawnManager : MonoBehaviour
         fireRateMultiplier = fireRateMultiplier * 1.25f;
         damageMultiplier = damageMultiplier * 1.25f;
         bulletSizeExtraMultiplier = bulletSizeExtraMultiplier * 1.25f;
+        healthMultiplier = healthMultiplier * 1.25f;
         spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.1f;
     }
 
@@ -105,7 +107,7 @@ public class EnemySpawnManager : MonoBehaviour
         int index = Random.Range(0, enemyDifficultyIndex);
         GameObject enemyObject = Instantiate(enemyList[index], RandomizeSpawnPoint(), Quaternion.identity);
         Enemy enemy = enemyObject.GetComponent<Enemy>();
-        enemy.InitiateEnemyStats(speedMultiplier, extraBullets, fireRateMultiplier, damageMultiplier, bulletSizeExtraMultiplier, universalLifesteal, universalHealthRegen);
+        enemy.InitiateEnemyStats(speedMultiplier, extraBullets, fireRateMultiplier, damageMultiplier, bulletSizeExtraMultiplier, universalLifesteal, universalHealthRegen, healthMultiplier);
         
     }
 

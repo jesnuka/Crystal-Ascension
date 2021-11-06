@@ -21,10 +21,14 @@ abstract public class Enemy : MonoBehaviour
     [SerializeField] public float healthMax;
     [SerializeField] public float health;
                      
+
+    // Health regen is not even used currently for enemies
     [SerializeField] public float healthRegenAmount;
+    [SerializeField] public float healthRegenAmountTrue; // This is actually used, other is used to check if it is enough for healthRegen (over 1.0f)
     [SerializeField] public bool canHealthRegen;
                      
     [SerializeField] public float lifeStealAmount;
+    [SerializeField] public float lifeStealAmountTrue; // This is actually used, other is used to check if it is enough for lifesteal (over 1.0f)
     [SerializeField] public bool canLifeSteal;
                       
     [SerializeField] public float speedMultiplier;
@@ -76,7 +80,7 @@ abstract public class Enemy : MonoBehaviour
     }
 
     #region Spawning
-    public void InitiateEnemyStats(float speedMult, int extraBullets, float fireRateMult, float damageMult, float bulletSizeExtraMult, float universalLifesteal, float universalHealthRegen)
+    public void InitiateEnemyStats(float speedMult, int extraBullets, float fireRateMult, float damageMult, float bulletSizeExtraMult, float universalLifesteal, float universalHealthRegen, float healthMultiplier)
     {
         if (universalLifesteal > 0)
             canLifeSteal = true;
@@ -86,14 +90,32 @@ abstract public class Enemy : MonoBehaviour
         // health = health * difficultyMultiplier;
         // health = health * difficultyMultiplier;
 
-        speedMultiplier = speedMultiplier + speedMultiplier * speedMult;
-        bulletAmount = bulletAmount + extraBullets;
-        shootCooldownMax = Mathf.Abs(shootCooldownMax - shootCooldownMax * fireRateMult);
-        bulletDamage = bulletDamage + bulletDamage * damageMult;
-        bulletSizeMultiplier = bulletSizeMultiplier + bulletSizeExtraMult;
+        healthMax = Mathf.Abs(healthMax + healthMax * (healthMultiplier/10f));
+        health += Mathf.Abs(healthMax * (healthMultiplier / 10f));
 
-        lifeStealAmount = universalLifesteal;
-        healthRegenAmount = universalHealthRegen;
+        speedMultiplier = Mathf.Abs(speedMultiplier + speedMultiplier * (speedMult/10f));
+        //bulletAmount = bulletAmount + extraBullets; Not used for now
+
+        if ((shootCooldownMax - shootCooldownMax * (fireRateMult / 100f)) <= 0)
+            shootCooldownMax = 0.05f;
+        else
+            shootCooldownMax = Mathf.Abs(shootCooldownMax - shootCooldownMax * (fireRateMult/100f)); // Just incase to avoid insane fire rate, this is done.
+
+        bulletDamage = Mathf.Abs(bulletDamage + bulletDamage * (damageMult/10f));
+        bulletSizeMultiplier = Mathf.Abs(bulletSizeMultiplier + bulletSizeMultiplier * (bulletSizeExtraMult/10f));
+
+        lifeStealAmount = lifeStealAmount + lifeStealAmount * universalLifesteal;
+        healthRegenAmount = lifeStealAmount + lifeStealAmount * universalHealthRegen;
+        if (lifeStealAmount > 1.0f)
+        {
+            canLifeSteal = true;
+            lifeStealAmountTrue = lifeStealAmount;
+        }
+        if (healthRegenAmount > 1.0f)
+        {
+            canHealthRegen = true;
+            healthRegenAmountTrue = healthRegenAmount;
+        }
 
         // TODO: All stats should be randomized from starting value to the difficultymultiplier values maybe?
         // DOES NOT WORK, too random!!
@@ -129,12 +151,15 @@ abstract public class Enemy : MonoBehaviour
         }
         else
         {
+            SoundManager.instance.PlaySoundOnce("enemyTakeDamage", Vector3.zero, this.gameObject, true);
             health -= damage;
         }
     }
 
     private void EnemyDeath()
     {
+        Debug.Log("Play enemy death");
+        SoundManager.instance.PlaySoundOnce("enemyDeath", Vector3.zero, null, true);
         Instantiate(deathParticles, this.transform.position, Quaternion.identity);
         enemySprite.SetActive(false);
         CalculateScore();

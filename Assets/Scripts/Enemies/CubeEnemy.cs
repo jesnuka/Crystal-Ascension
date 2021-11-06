@@ -61,8 +61,9 @@ public class CubeEnemy : Enemy
     {
         for (int i = 0; i < bulletAmount; i++)
         {
+            SoundManager.instance.PlaySoundOnce("cubeShoot", Vector3.zero, this.gameObject, true);
             GameObject bullet = Instantiate(bulletObject, this.transform.position, Quaternion.identity);
-            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmount, this);
+            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmountTrue, this);
         }
     }
 

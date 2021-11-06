@@ -287,6 +287,7 @@ public class UpgradeSpawnManager : MonoBehaviour
 
     public void AcceptUpgrade()
     {
+        SoundManager.instance.PlaySoundOnce("upgradeAccept", Vector3.zero, this.gameObject, true);
         Debug.Log("Upgrade accepted");
         currentUpgrade.PickupUpgradeObject();
         currentUpgrade = null;
@@ -295,6 +296,7 @@ public class UpgradeSpawnManager : MonoBehaviour
 
     public void DeclineUpgrade()
     {
+        SoundManager.instance.PlaySoundOnce("upgradeDecline", Vector3.zero, this.gameObject, true);
         Debug.Log("Upgrade declined");
         currentUpgrade.DestroyUpgradeObject();
         currentUpgrade = null;

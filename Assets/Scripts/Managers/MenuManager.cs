@@ -130,6 +130,15 @@ public class MenuManager : MonoBehaviour
     }
 
     #endregion
+    #region Sound
+
+    public void PlayButtonClick()
+    {
+        SoundManager.instance.PlaySoundOnce("buttonPress", Vector3.zero, this.gameObject, true);
+    }
+
+    #endregion
+
     #region Navigation
 
     public void ReturnToMenu()
@@ -314,8 +323,10 @@ public class MenuManager : MonoBehaviour
     public void SaveSettings()
     {
         // TODO: Add saving of settings for user when leaving settings
-       // soundVolume = slider_SoundVolume.value * 100;
-      //  musicVolume = slider_MusicVolume.value * 100;
+        // soundVolume = slider_SoundVolume.value * 100;
+        //  musicVolume = slider_MusicVolume.value * 100;
+
+        SoundManager.instance.PlaySoundOnce("saveSettings", Vector3.zero, this.gameObject, true);
 
         soundVolume = (float)System.Math.Round(slider_SoundVolume.value);
         musicVolume = (float)System.Math.Round(slider_MusicVolume.value);

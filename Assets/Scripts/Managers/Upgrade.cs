@@ -208,25 +208,45 @@ public class Upgrade : MonoBehaviour
         {
             case 0:
                 {
-                    Debug.Log("health");
-                   // player.healthMax = player.healthMax + player.healthMax * value;
-                    player.healthMax = (player.healthMax != 0) ? player.healthMax - (Mathf.Abs(player.healthMax * value) * Mathf.Sign(value)) :
-                        player.healthMax + (Mathf.Abs(1 * value) * Mathf.Sign(value));
+                    if ((player.healthMax + (Mathf.Abs(player.healthMax * value) * Mathf.Sign(value))) <= 0)
+                    {
+                        player.healthMax = 0.1f;
+                        if (player.health > player.healthMax)
+                            player.health = player.healthMax;
+                        else if(Mathf.Sign(value) > 0) // Only increase player HP if the upgrade is increases max HP
+                            player.health += Mathf.Abs(player.healthMax * value) * Mathf.Sign(value);
+                    }
+                    else
+                    {
+                        player.healthMax = player.healthMax + (Mathf.Abs(player.healthMax * value) * Mathf.Sign(value)); // Just incase to avoid insane fire rate, this is done.
+                        if (player.health > player.healthMax)
+                            player.health = player.healthMax;
+                        else if (Mathf.Sign(value) > 0) // Only increase player HP if the upgrade is increases max HP
+                            player.health += Mathf.Abs(player.healthMax * value) * Mathf.Sign(value);
+                    }
 
-                    player.health += Mathf.Abs(player.healthMax * value) * Mathf.Sign(value);
-                    if (player.health > player.healthMax)
-                        player.health = player.healthMax;
+                    // player.healthMax = player.healthMax + player.healthMax * value;
+                    //  player.healthMax = (player.healthMax != 0) ? player.healthMax - (Mathf.Abs(player.healthMax * value) * Mathf.Sign(value)) :
+                //   player.healthMax + (Mathf.Abs(1 * value) * Mathf.Sign(value));
+
+                  //  player.health += Mathf.Abs(player.healthMax * value) * Mathf.Sign(value);
+                  //  if (player.health > player.healthMax)
+                 //       player.health = player.healthMax;
                     break;
                 }
             case 1:
                 {
-                    Debug.Log("shootcooldown");
-                    // Negative value, so Positive stats make this faster, and negative stats increase this (Slow it down)
-                    player.shootCooldownMax = (player.shootCooldownMax != 0) ? player.shootCooldownMax - (Mathf.Abs(player.shootCooldownMax * value) * Mathf.Sign(value)) :
-                        player.shootCooldownMax + (Mathf.Abs(1 * value) * Mathf.Sign(value));
+                    if ((player.shootCooldownMax - (Mathf.Abs(player.shootCooldownMax * value) * Mathf.Sign(value))) <= 0)
+                        player.shootCooldownMax = 0.05f;
+                    else
+                        player.shootCooldownMax = player.shootCooldownMax - (Mathf.Abs(player.shootCooldownMax * value) * Mathf.Sign(value)); // Just incase to avoid insane fire rate, this is done.
 
-                    if (player.shootCooldown > player.shootCooldownMax)
-                        player.shootCooldown = player.shootCooldownMax;
+                    // Negative value, so Positive stats make this faster, and negative stats increase this (Slow it down)
+                    //  player.shootCooldownMax = (player.shootCooldownMax != 0) ? player.shootCooldownMax - (Mathf.Abs(player.shootCooldownMax * value) * Mathf.Sign(value)) :
+                    //      player.shootCooldownMax + (Mathf.Abs(1 * value) * Mathf.Sign(value));
+
+                    //  if (player.shootCooldown > player.shootCooldownMax)
+                    //       player.shootCooldown = player.shootCooldownMax;
                     break;
                 }
             case 2:

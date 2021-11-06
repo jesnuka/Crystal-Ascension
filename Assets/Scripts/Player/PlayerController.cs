@@ -293,7 +293,7 @@ public class PlayerController : MonoBehaviour
             TakeDamage(5000f);
         }*/
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && Time.timeScale > 0)
         {
             // Vector2 cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //  Vector2 direction = new Vector2(cursorPos.x, cursorPos.y) - new Vector2(transform.position.x, transform.position.y);
@@ -330,6 +330,7 @@ public class PlayerController : MonoBehaviour
             else
                 deathMenuCounter = totalHeroism;
             // TODO: Play some increasing sound effect here
+            SoundManager.instance.PlaySoundOnce("scoreCounter", Vector3.zero, this.gameObject, true);
             deathHeroismGained.text = deathMenuCounter.ToString();
         }
         else if (deathMenuCounter >= totalHeroism)
@@ -342,11 +343,13 @@ public class PlayerController : MonoBehaviour
             if (check) // Got new highscore! Display text
             {
                 deathHeroismHighscore.gameObject.SetActive(true);
+                SoundManager.instance.PlaySoundOnce("highScoreSound", Vector3.zero, this.gameObject, true);
                 //   SoundManager.instance.PlaySound("newHighscore", Vector3.zero, this.gameObject);
             }
             else // No highscore
             {
                 deathHeroismHighscore.gameObject.SetActive(false);
+                SoundManager.instance.PlaySoundOnce("normalScoreSound", Vector3.zero, this.gameObject, true);
                 //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
             }
 
@@ -360,6 +363,7 @@ public class PlayerController : MonoBehaviour
     {
         if(deathMenuTimerOn)
         {
+            SoundManager.instance.PlaySoundOnce("buttonPress", Vector3.zero, this.gameObject, true);
             deathMenuTimerOn = false;
             deathMenuCounter = totalHeroism;
             deathHeroismGained.text = totalHeroism.ToString();
@@ -368,15 +372,17 @@ public class PlayerController : MonoBehaviour
             if (check) // Got new highscore! Display text
             {
                 deathHeroismHighscore.gameObject.SetActive(true);
+                SoundManager.instance.PlaySoundOnce("highScoreSound", Vector3.zero, this.gameObject, true);
                 //   SoundManager.instance.PlaySound("newHighscore", Vector3.zero, this.gameObject);
             }
             else // No highscore
             {
                 deathHeroismHighscore.gameObject.SetActive(false);
+                SoundManager.instance.PlaySoundOnce("normalScoreSound", Vector3.zero, this.gameObject, true);
                 //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
             }
 
-            
+
             deathCounterSkipButton.SetActive(false);
             deathScreenButton1.SetActive(true);
             deathScreenButton2.SetActive(true);
@@ -385,6 +391,7 @@ public class PlayerController : MonoBehaviour
 
     private void CloseMenu()
     {
+      //  SoundManager.instance.PlaySoundOnce("buttonPress", Vector3.zero, this.gameObject, true);
         //   SoundManager.instance.PlaySound("pauseGame", Vector3.zero, transform.gameObject);
         pauseMenu.gameObject.SetActive(false);
         pauseMenuConfirmBox.SetActive(false);
@@ -397,6 +404,7 @@ public class PlayerController : MonoBehaviour
 
     private void OpenMenu()
     {
+        SoundManager.instance.PlaySoundOnce("pauseGame", Vector3.zero, this.gameObject, true);
         //   SoundManager.instance.PlaySound("pauseGame", Vector3.zero, transform.gameObject);
         pauseMenu.gameObject.SetActive(true);
         menuOpen = true;
@@ -407,11 +415,13 @@ public class PlayerController : MonoBehaviour
 
     public void OpenConfirmBox()
     {
+        SoundManager.instance.PlaySoundOnce("buttonPress", Vector3.zero, this.gameObject, true);
         pauseMenuConfirmBox.SetActive(true);
     }
 
     public void CloseConfirmBox()
     {
+        SoundManager.instance.PlaySoundOnce("buttonPress", Vector3.zero, this.gameObject, true);
         pauseMenuConfirmBox.SetActive(false);
     }
 
@@ -447,11 +457,13 @@ public class PlayerController : MonoBehaviour
         if(check) // Got new highscore! Display text
         {
             deathSurvivalHighscore.gameObject.SetActive(true);
+            SoundManager.instance.PlaySoundOnce("highScoreSound", Vector3.zero, this.gameObject, true);
             //   SoundManager.instance.PlaySound("newHighscore", Vector3.zero, this.gameObject);
         }
         else // No highscore
         {
             deathSurvivalHighscore.gameObject.SetActive(false);
+            SoundManager.instance.PlaySoundOnce("normalScoreSound", Vector3.zero, this.gameObject, true);
             //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
         }
 
@@ -468,11 +480,13 @@ public class PlayerController : MonoBehaviour
         if (check) // Got new highscore! Display text
         {
             deathValourHighscore.gameObject.SetActive(true);
+            SoundManager.instance.PlaySoundOnce("highScoreSound", Vector3.zero, this.gameObject, true);
             //   SoundManager.instance.PlaySound("newHighscore", Vector3.zero, this.gameObject);
         }
         else // No highscore
         {
             deathValourHighscore.gameObject.SetActive(false);
+            SoundManager.instance.PlaySoundOnce("normalScoreSound", Vector3.zero, this.gameObject, true);
             //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
         }
 
@@ -496,6 +510,7 @@ public class PlayerController : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        SoundManager.instance.PlaySoundOnce("buttonPress", Vector3.zero, this.gameObject, true);
         Time.timeScale = 1f;
         SceneManager.LoadScene("MenuScene");
     }
@@ -503,6 +518,7 @@ public class PlayerController : MonoBehaviour
     {
         // TODO: Add other way to do this? Make sure nothing breaks!
 
+        SoundManager.instance.PlaySoundOnce("buttonPress", Vector3.zero, this.gameObject, true);
         Time.timeScale = 1f;
         SceneManager.LoadScene("GameScene");
     }
@@ -623,11 +639,13 @@ public class PlayerController : MonoBehaviour
                         ChangePlayerColor(playerColorHurt, playerSpriteColorInvis);
                         // colorLerpTimer = colorLerpTimerMax;
                         invincibilityLengthCurrent = invincibilityLengthMax;
+                        SoundManager.instance.PlaySoundOnce("playerHurt", Vector3.zero, this.gameObject, true);
                     }
                 }
                 else // Frailness is better than damage, do nothing
                 {
                     Debug.Log("Defense!");
+                    SoundManager.instance.PlaySoundOnce("shieldHit", Vector3.zero, this.gameObject, true);
                     // Play "Dink" sound effect?
                 }
                     
@@ -645,6 +663,7 @@ public class PlayerController : MonoBehaviour
                     ChangePlayerColor(playerColorHurt, playerSpriteColorInvis);
                     // colorLerpTimer = colorLerpTimerMax;
                     invincibilityLengthCurrent = invincibilityLengthMax;
+                    SoundManager.instance.PlaySoundOnce("playerHurt", Vector3.zero, this.gameObject, true);
                 }
             }
         }
@@ -665,6 +684,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator PlayerDeath()
     {
         totalHeroism = OutputPlayerScore();
+        SoundManager.instance.PlaySoundOnce("playerDeath", Vector3.zero, this.gameObject, true);
         GameObject deathPs = Instantiate(deathParticles, transform);
         // deathPs.GetComponent<ParticleEmission>().particleAmount = Mathf.RoundToInt((float)Math.Round((double)(totalHeroism / 10f)));
         if (totalHeroism <= 10)
@@ -781,6 +801,7 @@ public class PlayerController : MonoBehaviour
     {
         for(int i = 0; i < bulletAmount; i++)
         {
+            SoundManager.instance.PlaySoundOnce("playerShoot", Vector3.zero, this.gameObject, true);
             GameObject bullet = Instantiate(bulletObject, this.transform.position, Quaternion.identity);
             bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmount);
         }
