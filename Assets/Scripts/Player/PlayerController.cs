@@ -37,6 +37,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] TMP_Text deathHeroismText;
     [SerializeField] TMP_Text deathHeroismGained;
 
+    [SerializeField] TMP_Text deathSurvivalHighscore;
+    [SerializeField] TMP_Text deathValourHighscore;
+    [SerializeField] TMP_Text deathHeroismHighscore;
+
     [SerializeField] int totalHeroism;
     [SerializeField] int deathMenuCounter;
     [SerializeField] bool deathMenuTimerOn;
@@ -332,7 +336,18 @@ public class PlayerController : MonoBehaviour
             deathMenuTimerOn = false;
             deathMenuCounter = totalHeroism;
             deathHeroismGained.text = totalHeroism.ToString();
-            SaveHighScore();
+
+            bool check = SettingsManager.instance.CheckHeroismHighscore(totalHeroism);
+            if (check) // Got new highscore! Display text
+            {
+                deathHeroismHighscore.gameObject.SetActive(true);
+                //   SoundManager.instance.PlaySound("newHighscore", Vector3.zero, this.gameObject);
+            }
+            else // No highscore
+            {
+                deathHeroismHighscore.gameObject.SetActive(false);
+                //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
+            }
 
             deathCounterSkipButton.SetActive(false);
             deathScreenButtons.SetActive(true);
@@ -346,16 +361,23 @@ public class PlayerController : MonoBehaviour
             deathMenuTimerOn = false;
             deathMenuCounter = totalHeroism;
             deathHeroismGained.text = totalHeroism.ToString();
-            SaveHighScore();
+
+            bool check = SettingsManager.instance.CheckHeroismHighscore(totalHeroism);
+            if (check) // Got new highscore! Display text
+            {
+                deathHeroismHighscore.gameObject.SetActive(true);
+                //   SoundManager.instance.PlaySound("newHighscore", Vector3.zero, this.gameObject);
+            }
+            else // No highscore
+            {
+                deathHeroismHighscore.gameObject.SetActive(false);
+                //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
+            }
+
             
             deathCounterSkipButton.SetActive(false);
             deathScreenButtons.SetActive(true);
         }
-    }
-
-    private void SaveHighScore()
-    {
-        // TODO: Post score to HIGHSCORE here, or save to player game!
     }
 
     private void CloseMenu()
@@ -418,7 +440,18 @@ public class PlayerController : MonoBehaviour
         deathSurvivedText.gameObject.SetActive(true);
         numTime.gameObject.SetActive(true);
         numTime.text = TimeSpan.FromSeconds((double)timeSurvived).ToString(@"dd\:hh\:mm\:ss");
-        //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
+        bool check = SettingsManager.instance.CheckSurvivalHighscore(timeSurvived);
+        if(check) // Got new highscore! Display text
+        {
+            deathSurvivalHighscore.gameObject.SetActive(true);
+            //   SoundManager.instance.PlaySound("newHighscore", Vector3.zero, this.gameObject);
+        }
+        else // No highscore
+        {
+            deathSurvivalHighscore.gameObject.SetActive(false);
+            //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
+        }
+
         StartCoroutine(ShowDeath2());
     }
     IEnumerator ShowDeath2()
@@ -427,7 +460,19 @@ public class PlayerController : MonoBehaviour
         deathValourText.gameObject.SetActive(true);
         numValour.gameObject.SetActive(true);
         numValour.text = score.ToString();
-        //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
+
+        bool check = SettingsManager.instance.CheckValourHighscore(score);
+        if (check) // Got new highscore! Display text
+        {
+            deathValourHighscore.gameObject.SetActive(true);
+            //   SoundManager.instance.PlaySound("newHighscore", Vector3.zero, this.gameObject);
+        }
+        else // No highscore
+        {
+            deathValourHighscore.gameObject.SetActive(false);
+            //SoundManager.instance.PlaySound("screenTextAppears", Vector3.zero, this.gameObject);
+        }
+
         StartCoroutine(ShowDeath3());
     }
 
