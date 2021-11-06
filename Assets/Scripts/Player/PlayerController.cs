@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject deathScreen;
     [SerializeField] GameObject deathCounterSkipButton;
-    [SerializeField] GameObject deathScreenButtons;
+    [SerializeField] GameObject deathScreenButton1;
+    [SerializeField] GameObject deathScreenButton2;
     [SerializeField] TMP_Text deathDescription;
     [SerializeField] TMP_Text deathSurvivedText;
     [SerializeField] TMP_Text numTime;
@@ -350,7 +351,8 @@ public class PlayerController : MonoBehaviour
             }
 
             deathCounterSkipButton.SetActive(false);
-            deathScreenButtons.SetActive(true);
+            deathScreenButton1.SetActive(true);
+            deathScreenButton2.SetActive(true);
         }
     }
 
@@ -376,7 +378,8 @@ public class PlayerController : MonoBehaviour
 
             
             deathCounterSkipButton.SetActive(false);
-            deathScreenButtons.SetActive(true);
+            deathScreenButton1.SetActive(true);
+            deathScreenButton2.SetActive(true);
         }
     }
 
