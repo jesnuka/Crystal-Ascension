@@ -6486,7 +6486,7 @@ MonoBehaviour:
     spatialBlend: 0
   - name: pauseGame
     audioSource: {fileID: 0}
-    audioClip: {fileID: 8300000, guid: bb1e7f1139bd7224e8bf91afed39c3be, type: 3}
+    audioClip: {fileID: 8300000, guid: 7b8c2e92fa09229469b01ec41eefcffe, type: 3}
     loop: 0
     volume: 1
     pitch: 1
