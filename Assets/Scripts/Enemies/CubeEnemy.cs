@@ -59,11 +59,18 @@ public class CubeEnemy : Enemy
 
     private void Shoot(Vector2 direction)
     {
-        for (int i = 0; i < bulletAmount; i++)
+        float bulletAmountInt = Mathf.Floor(bulletAmount);
+        if (bulletAmountInt < 1f)
+            bulletAmountInt = 1f;
+
+        for (int i = 0; i < bulletAmountInt; i++)
         {
+
+            float spreadAngle = Mathf.Abs(bulletSpread);
+
             SoundManager.instance.PlaySoundOnce("cubeShoot", Vector3.zero, this.gameObject, true);
             GameObject bullet = Instantiate(bulletObject, this.transform.position, Quaternion.identity);
-            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmountTrue, this);
+            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmountTrue, spreadAngle, this);
         }
     }
 

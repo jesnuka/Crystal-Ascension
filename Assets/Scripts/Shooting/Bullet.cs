@@ -38,7 +38,7 @@ public class Bullet : MonoBehaviour
         Physics2D.IgnoreLayerCollision(10, 11, true);
     }
 
-    public void ShootBullet(float damage, float lifetime, float speed, Vector2 direction, Color bColor, float sizeMultiplier, float lifeSteal, Enemy parent = default(Enemy))
+    public void ShootBullet(float damage, float lifetime, float speed, Vector2 direction, Color bColor, float sizeMultiplier, float lifeSteal, float spreadAngle = 0, Enemy parent = default(Enemy))
     {
         if (isEnemyBullet && parent != null)
             parentEnemy = parent;
@@ -58,15 +58,21 @@ public class Bullet : MonoBehaviour
         direction.Normalize();
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(Vector3.forward * (angle + 90f));
+       // transform.Rotate(Random.Range(-10, 10), Random.Range(-10, 10), 0);
+
+        // Rotate using spreadAngle
+        transform.Rotate(0,0, Random.Range(-spreadAngle, spreadAngle));
        // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, direction), 10f * Time.deltaTime);
-        rgb.velocity = Vector3.forward * bulletSpeed;
+        //rgb.velocity = Vector3.forward * bulletSpeed;
+        rgb.velocity = -transform.up * bulletSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
         bulletLifetime -= Time.deltaTime;
-        rgb.velocity = bulletDirection * bulletSpeed;
+        rgb.velocity =  -transform.up * bulletSpeed;
+       // rgb.velocity = bulletDirection * bulletSpeed;
 
         if (!isGone && bulletLifetime < 0f)
             DestroyBullet();

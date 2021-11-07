@@ -800,11 +800,21 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot(Vector2 direction)
     {
-        for(int i = 0; i < bulletAmount; i++)
+        float bulletAmountInt = Mathf.Floor(bulletAmount);
+        if (bulletAmountInt < 1f)
+            bulletAmountInt = 1f;
+        for(int i = 0; i < bulletAmountInt; i++)
         {
+            // Vector2 eulerAngle = direction;
+            //  eulerAngle.y = 90;
+            //  Vector2 newDir = Quaternion.Euler(eulerAngle) * direction;
+            float spreadAngle = Mathf.Abs(bulletSpread);
+
+
             SoundManager.instance.PlaySoundOnce("playerShoot", Vector3.zero, this.gameObject, true);
             GameObject bullet = Instantiate(bulletObject, this.transform.position, Quaternion.identity);
-            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmount);
+            //bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmount);
+            bullet.GetComponent<Bullet>().ShootBullet(bulletDamage, bulletLifetime, bulletSpeed, direction, bulletColor, bulletSizeMultiplier, lifeStealAmount, spreadAngle);
         }
     }
 
