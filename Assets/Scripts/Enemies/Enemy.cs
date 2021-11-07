@@ -79,7 +79,7 @@ abstract public class Enemy : MonoBehaviour
               //  if (distanceToPlayer < Screen.width)
                 if (enemySpriteColored.GetComponent<Renderer>().isVisible)
                 {
-                    Debug.Log("Can shoot now!");
+             //       Debug.Log("Can shoot now!");
                     canShoot = true;
                 }
             }
@@ -170,7 +170,7 @@ abstract public class Enemy : MonoBehaviour
 
     private void EnemyDeath()
     {
-        Debug.Log("Play enemy death");
+    //    Debug.Log("Play enemy death");
         SoundManager.instance.PlaySoundOnce("enemyDeath", Vector3.zero, null, true);
         Instantiate(deathParticles, this.transform.position, Quaternion.identity);
         enemySprite.SetActive(false);

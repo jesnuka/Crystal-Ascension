@@ -593,13 +593,13 @@ public class PlayerController : MonoBehaviour
             {
                 if ((health + amount) < healthMax)
                 {
-                    Debug.Log("Healing");
+                  //  Debug.Log("Healing");
                     healthRegenDelay = healthRegenDelayMax;
                     health += amount;
                 }
                 else if ((health + amount) >= healthMax)
                 {
-                    Debug.Log("heal max");
+               //     Debug.Log("heal max");
                     healthRegenDelay = healthRegenDelayMax;
                     health = healthMax;
                 }
@@ -608,7 +608,7 @@ public class PlayerController : MonoBehaviour
         }
         else // Apparently this deals damage, so takeDamage
         {
-            Debug.Log("Take damage");
+        //    Debug.Log("Take damage");
             TakeDamage(amount);
         }
     }
@@ -645,7 +645,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else // Frailness is better than damage, do nothing
                 {
-                    Debug.Log("Defense!");
+              //      Debug.Log("Defense!");
                     SoundManager.instance.PlaySoundOnce("shieldHit", Vector3.zero, this.gameObject, true);
                     // Play "Dink" sound effect?
                 }
