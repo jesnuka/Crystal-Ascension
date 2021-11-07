@@ -87,7 +87,7 @@ public class UpgradeSpawnManager : MonoBehaviour
             else
                 HandleDifficultyExtreme();
 
-            chanceCeiling = (spawnTimerDecreaseMultiplier * timeSurvived / 500000f);
+            chanceCeiling = ((spawnTimerDecreaseMultiplier * PlayerController.instance.luckiness * timeSurvived) / 500000f);
             spawnTimerDecreaseTimer += Time.deltaTime * 0.01f;
             tierImprovementTimer += Time.deltaTime * 0.01f;
             upgradeValueImprovementTimer += Time.deltaTime * 0.01f;
@@ -217,6 +217,7 @@ public class UpgradeSpawnManager : MonoBehaviour
             // Spawn upgrade
         //    Debug.Log("Chance ceiling was:" + chanceCeiling);
             spawnTimerDecreaseTimer = 0f;
+            SoundManager.instance.PlaySoundOnce("upgradeDrop", Vector3.zero, this.gameObject, true);
             Instantiate(ChooseUpgradeGameobject(), position, Quaternion.identity);
         }
         else
@@ -237,7 +238,7 @@ public class UpgradeSpawnManager : MonoBehaviour
 
         if(tierChance + tierImprovementTimer > 0.95f)
         {
-            Debug.Log("Tier 3");
+          //  Debug.Log("Tier 3");
             // Tier 3 reward
             // Needs to be above 0.95 %
             int index = Random.Range(0, tierUpgrades3.Count);
@@ -254,7 +255,7 @@ public class UpgradeSpawnManager : MonoBehaviour
         }
         else if((tierChance + tierImprovementTimer > 0.75f) && (tierChance + tierImprovementTimer <= 0.95f))
         {
-            Debug.Log("Tier 2");
+         //   Debug.Log("Tier 2");
             // Tier 2 reward
             // Needs to be between 0.75 % - 0.95 %
             int index = Random.Range(0, tierUpgrades2.Count);
@@ -271,7 +272,7 @@ public class UpgradeSpawnManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Tier 1");
+            //Debug.Log("Tier 1");
             // Tier 1 reward
             // Anything less than 0.75 %
             int index = Random.Range(0, tierUpgrades1.Count);
@@ -291,7 +292,7 @@ public class UpgradeSpawnManager : MonoBehaviour
     public void AcceptUpgrade()
     {
         SoundManager.instance.PlaySoundOnce("upgradeAccept", Vector3.zero, this.gameObject, true);
-        Debug.Log("Upgrade accepted");
+       /// Debug.Log("Upgrade accepted");
         currentUpgrade.PickupUpgradeObject();
         currentUpgrade = null;
         CloseUpgradeScreen();
@@ -300,7 +301,7 @@ public class UpgradeSpawnManager : MonoBehaviour
     public void DeclineUpgrade()
     {
         SoundManager.instance.PlaySoundOnce("upgradeDecline", Vector3.zero, this.gameObject, true);
-        Debug.Log("Upgrade declined");
+      //  Debug.Log("Upgrade declined");
         currentUpgrade.DestroyUpgradeObject();
         currentUpgrade = null;
         CloseUpgradeScreen();

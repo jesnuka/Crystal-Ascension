@@ -5428,20 +5428,23 @@ MonoBehaviour:
   - Bullet Speed
   - Defense
   targetValues2:
-  - Bullets
+  - Bullet Amount
   - Damage
   - Luckiness
+  - Bullet Lifetime
   targetValues3:
   - Invincibility Length
   - Health Regen
   - Bullet Size Multiplier
   - Lifesteal
-  positiveIndex: 2
-  negativeIndex: 1
-  positiveValue: 0.42067975
-  negativeValue: -0.4304503
-  positiveString: Move Speed
-  negativeString: Firing Rate
+  positiveIndex: 0
+  negativeIndex: 0
+  positiveValue: 0
+  negativeValue: 0
+  positiveString: 
+  negativeString: 
+  positiveTier: 0
+  negativeTier: 0
   upgradeTier: 1
   canBePickedUp: 0
   lifeTime: 20

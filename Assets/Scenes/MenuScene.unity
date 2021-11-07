@@ -6505,6 +6505,13 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 0
+  - name: upgradeDrop
+    audioSource: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: ddcc394bfce04f44eafef54c8c40d5f0, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
   audioFollowerObject: {fileID: 5865931817087227610, guid: 116585956e70ed248858b003f8acfd34, type: 3}
 --- !u!1 &905626129
 GameObject:
@@ -15777,18 +15784,6 @@ MonoBehaviour:
       - m_Target: {fileID: 10923409}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: StartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 10923409}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

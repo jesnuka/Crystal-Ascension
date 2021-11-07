@@ -266,7 +266,7 @@ public class PlayerController : MonoBehaviour
     #region Score
     public void AddScore(int newScore)
     {
-        Debug.Log("Score added!");
+       // Debug.Log("Score added!");
         score += newScore + newScore * scoreMultiplier;
     }
     #endregion
@@ -534,45 +534,46 @@ public class PlayerController : MonoBehaviour
     public void UpdatePlayerStatsUI()
     {
         // Player values
-        text_playerHealth.text = "Energy: " + health.ToString();
-        text_playerMaxHealth.text = "Max Energy: " + healthMax.ToString();
-        text_playerSpeed.text = "Move Speed: " + speedMultiplier.ToString();
-        text_playerFrailness.text = "Defense: " + frailnessMultiplier.ToString();
-        text_playerInvincibilityFrames.text = "Invincibility Length: " + invincibilityLengthMax.ToString();
+        text_playerHealth.text = "Energy: " + health.ToString("F2");
+        text_playerMaxHealth.text = "Max Energy: " + healthMax.ToString("F2");
+        text_playerSpeed.text = "Move Speed: " + speedMultiplier.ToString("F2");
+        text_playerFrailness.text = "Defense: " + frailnessMultiplier.ToString("F2");
+        text_playerInvincibilityFrames.text = "Invincibility Length: " + invincibilityLengthMax.ToString("F2");
         bar_playerInvincibilityFrames.fillAmount = Math.Abs((invincibilityLengthMax - invincibilityLengthCurrent) / invincibilityLengthMax);
 
         text_playerTimeSurvived.text = FormatSurvivedTime();
 
-        if (canLifeSteal)
-            text_playerLifesteal.text = "Lifesteal: " + lifeStealAmount.ToString();
-        else
-            text_playerLifesteal.text = "";
-
-        if (canHealthRegen)
-            text_playerRegen.text = "Energy Regen: " + healthRegenAmount.ToString();
-        else
-            text_playerRegen.text = "";
+        //if (canLifeSteal)
+        //      text_playerLifesteal.text = "Lifesteal: " + lifeStealAmount.ToString();
+        //  else
+        //      text_playerLifesteal.text = "";
+        text_playerLifesteal.text = "Lifesteal: " + lifeStealAmount.ToString("F2");
+        text_playerRegen.text = "Energy Regen: " + healthRegenAmount.ToString("F2");
+        //  if (canHealthRegen)
+        //      text_playerRegen.text = "Energy Regen: " + healthRegenAmount.ToString();
+        //  else
+        //      text_playerRegen.text = "";
 
         if (luckiness > 1)
-            text_playerLuckiness.text = "Luckiness: " + luckiness.ToString();
+            text_playerLuckiness.text = "Luckiness: " + luckiness.ToString("F2");
         else
             text_playerLuckiness.text = "";
 
         if (scoreMultiplier > 0)
-            text_playerValourMultiplier.text = "Extra Valour Multiplier: " + scoreMultiplier.ToString();
+            text_playerValourMultiplier.text = "Extra Valour Multiplier: " + scoreMultiplier.ToString("F2");
         else
             text_playerValourMultiplier.text = "";
 
         // Bullet values
-        text_bulletDamage.text = "Damage: " + bulletDamage.ToString();
-        text_bulletAmount.text = "Bullets: " + bulletAmount.ToString();
-        text_bulletSpeed.text = "Bullet Speed: " + bulletSpeed.ToString();
-        text_bulletCooldown.text = "Firing Rate: " + shootCooldownMax.ToString();
+        text_bulletDamage.text = "Damage: " + bulletDamage.ToString("F2");
+        text_bulletAmount.text = "Bullet Amount: " + bulletAmount.ToString("F2");
+        text_bulletSpeed.text = "Bullet Speed: " + bulletSpeed.ToString("F2");
+        text_bulletCooldown.text = "Firing Rate: " + shootCooldownMax.ToString("F2");
         bar_bulletCooldown.fillAmount = Math.Abs((shootCooldownMax - shootCooldown)/ shootCooldownMax);
 
-        text_bulletSpread.text = "Bullet Spread: " + bulletSpread.ToString();
-        text_bulletSizeMultiplier.text = "Bullet Size Multiplier: " + bulletSizeMultiplier.ToString();
-        text_bulletLifetime.text = "Bullet Lifetime: " + bulletLifetime.ToString();
+        text_bulletSpread.text = "Bullet Spread: " + bulletSpread.ToString("F2");
+        text_bulletSizeMultiplier.text = "Bullet Size Multiplier: " + bulletSizeMultiplier.ToString("F2");
+        text_bulletLifetime.text = "Bullet Lifetime: " + bulletLifetime.ToString("F2");
 
        // if (bulletBounces > 0)
        //     text_bulletBounces.text = "Bullet Bounces: " + bulletBounces.ToString();
