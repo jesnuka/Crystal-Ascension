@@ -306,9 +306,6 @@ public class Upgrade : MonoBehaviour
 
 
             stringName = targetValues1[index];
-            Debug.Log("Tier 3 gets tier 1");
-            Debug.Log("Tier 3 name: " + stringName);
-            Debug.Log("Tier 3 index: " + index);
         }
         else if(tierRand == 1)
         {
@@ -321,9 +318,6 @@ public class Upgrade : MonoBehaviour
 
 
             stringName = targetValues2[index];
-            Debug.Log("Tier 3 gets tier 2");
-            Debug.Log("Tier 3 name: " + stringName);
-            Debug.Log("Tier 3 index: " + index);
         }
         else
         {
@@ -336,9 +330,6 @@ public class Upgrade : MonoBehaviour
 
             stringName = targetValues3[index];
 
-            Debug.Log("Tier 3 gets tier 3");
-            Debug.Log("Tier 3 name: " + stringName);
-            Debug.Log("Tier 3 index: " + index);
         }
     }
 

@@ -147,7 +147,6 @@ public class UpgradeSpawnManager : MonoBehaviour
         {
             if (difficultyIndex == 2)
             {
-                Debug.Log("Increase! 8");
                 difficultyIndex = 3;
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
@@ -161,7 +160,6 @@ public class UpgradeSpawnManager : MonoBehaviour
         {
             if (difficultyIndex == 1)
             {
-                Debug.Log("Increase! 4");
                 difficultyIndex = 2;
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;
@@ -175,7 +173,6 @@ public class UpgradeSpawnManager : MonoBehaviour
             // This is performed only once
             if(difficultyIndex == 0)
             {
-                Debug.Log("Increase! 1");
                 difficultyIndex = 1;
                 spawnTimerDecreaseMultiplier = spawnTimerDecreaseMultiplier * 1.25f;
                 upgradeValueMultiplier = upgradeValueMultiplier * 1.25f;

@@ -6526,6 +6526,13 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 0
+  - name: starShoot
+    audioSource: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: a2f9ea23258fe444495f7d26af67c130, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
   audioFollowerObject: {fileID: 5865931817087227610, guid: 116585956e70ed248858b003f8acfd34, type: 3}
 --- !u!1 &905626129
 GameObject:

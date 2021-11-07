@@ -50,7 +50,7 @@ public class SoundManager: MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Sound " + name + " not found");
+             //   Debug.LogWarning("Sound " + name + " not found");
             }
         }
         else
@@ -79,7 +79,7 @@ public class SoundManager: MonoBehaviour
         Sound soundNew = Array.Find(soundList, sound => sound.name == name);
         if (soundNew != null)
         {
-            Debug.Log("The duration of the clip: " + name + " is: " + soundNew.audioClip.length);
+       //     Debug.Log("The duration of the clip: " + name + " is: " + soundNew.audioClip.length);
             return soundNew.audioClip.length;
         }
         return 0.1f;
@@ -101,7 +101,7 @@ public class SoundManager: MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Sound " + name + " not found");
+           //     Debug.LogWarning("Sound " + name + " not found");
             }
         }
 
@@ -140,7 +140,7 @@ public class SoundManager: MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Sound " + name + " not found");
+       //     Debug.LogWarning("Sound " + name + " not found");
         }
 
     }
@@ -154,7 +154,7 @@ public class SoundManager: MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Sound " + name + " not found");
+     //       Debug.LogWarning("Sound " + name + " not found");
         }
     }
 
