@@ -6519,6 +6519,13 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 0
+  - name: polygonShoot
+    audioSource: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 62843a52ab9f65a4ab0f21739229b2df, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
   audioFollowerObject: {fileID: 5865931817087227610, guid: 116585956e70ed248858b003f8acfd34, type: 3}
 --- !u!1 &905626129
 GameObject:
