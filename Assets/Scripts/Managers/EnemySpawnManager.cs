@@ -105,7 +105,9 @@ public class EnemySpawnManager : MonoBehaviour
     private void SpawnEnemy()
     {
         enemyAmountCurrent += 1;
-        int index = Random.Range(0, enemyDifficultyIndex);
+        int index = Random.Range(0, (enemyDifficultyIndex+1));
+        if (index > (enemyList.Count-1))
+            index = (enemyList.Count-1);
         GameObject enemyObject = Instantiate(enemyList[index], RandomizeSpawnPoint(), Quaternion.identity);
         Enemy enemy = enemyObject.GetComponent<Enemy>();
         enemy.InitiateEnemyStats(speedMultiplier, extraBullets, fireRateMultiplier, damageMultiplier, bulletSizeExtraMultiplier, universalLifesteal, universalHealthRegen, healthMultiplier);

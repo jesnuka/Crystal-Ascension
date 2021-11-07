@@ -803,6 +803,7 @@ public class PlayerController : MonoBehaviour
         float bulletAmountInt = Mathf.Floor(bulletAmount);
         if (bulletAmountInt < 1f)
             bulletAmountInt = 1f;
+
         for(int i = 0; i < bulletAmountInt; i++)
         {
             // Vector2 eulerAngle = direction;

@@ -6512,6 +6512,13 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 0
+  - name: triangleShoot
+    audioSource: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 18e0947d23bdc7446aa25451fdf009fd, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
   audioFollowerObject: {fileID: 5865931817087227610, guid: 116585956e70ed248858b003f8acfd34, type: 3}
 --- !u!1 &905626129
 GameObject:

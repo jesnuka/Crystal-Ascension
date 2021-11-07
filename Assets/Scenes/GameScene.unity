@@ -519,7 +519,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList:
-  - {fileID: 3024618870817530445, guid: c794738e74da7ed478ae8017f6147804, type: 3}
+  - {fileID: 4390574981837717944, guid: a15a92551f7b86547a85b911caafb3d9, type: 3}
+  - {fileID: 4390574981837717944, guid: a15a92551f7b86547a85b911caafb3d9, type: 3}
   enemyDifficultyIndex: 0
   timeSurvived: 0
   speedMultiplier: 1
